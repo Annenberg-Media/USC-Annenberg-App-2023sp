@@ -31,13 +31,23 @@ const News = ({ news }) => {
 
   // used for redirecting detail news
   const navigation = useNavigation();
-  
+
   return (
-  <>
-    <ScrollView>
+    <>
+      <ScrollView>
         <View>
           {news.map((n, i) => {
             const isLiked = newsData.findIndex(news => news.link === n.link) !== -1;
+
+            // Function to extract https URL from a string
+            const extractHttpsUrl = (text) => {
+              const urlRegex = /https:\/\/[^\s"]+/g; // Regex to find https URL
+              const match = text && text.match(urlRegex);
+              return match ? match[0] : null;
+            };
+
+            // Extract the https URL if present
+            const imgSrc = extractHttpsUrl(n.img);
 
             return (
               <TouchableOpacity
@@ -45,11 +55,11 @@ const News = ({ news }) => {
                 onPress={() => navigation.navigate('NewsDetail', { link: n.link })}
               >
                 <Card>
-                <Card.Title style={styles.title}>{n.title}</Card.Title>
-                <Card.Divider />
+                  <Card.Title style={styles.title}>{n.title}</Card.Title>
+                  <Card.Divider />
                   <View style={styles.user}>
                     {n.img !== undefined && <Image
-                      source={{ uri: n.img }}
+                      source={{ uri: imgSrc }}
                       containerStyle={styles.item}
                       PlaceholderContent={<ActivityIndicator />}
                     />}
@@ -73,61 +83,61 @@ const News = ({ news }) => {
             );
           })}
         </View>
-    </ScrollView>
-  </>
+      </ScrollView>
+    </>
   );
 };
 
 export default News;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F5FCFF',
-    },
-    title: {
-        fontSize: 20,
-    },
-    fonts: {
-        marginBottom: 8,
-    },
-    user: {
-        flexDirection: 'column',
-        marginBottom: 6,
-    },
-    image: {
-        width: 30,
-        height: 30,
-        marginRight: 10,
-    },
-    name: {
-        fontSize: 16,
-        marginTop: 5,
-    },
-    description: {
-      fontSize: 16,
-      marginTop: 5,
-    },
-    date: {
-      fontSize: 11,
-      marginTop: 5,
-      color: "grey",
-    },
-    item: {
-      aspectRatio: 1,
-      width: '100%',
-      flex: 1,
-    },
-    undefinedItem: {
-      height: 40,
-      resizeMode: 'contain',
-    },
-    marker: {
-      position: 'absolute',
-      bottom: -8, // adjust the value to change the distance from the bottom
-      right: 5, // adjust the value to change the distance from the right
-      padding: 3, // adjust the padding as needed
-      borderRadius: 5, // adjust the border radius as needed
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+  },
+  title: {
+    fontSize: 20,
+  },
+  fonts: {
+    marginBottom: 8,
+  },
+  user: {
+    flexDirection: 'column',
+    marginBottom: 6,
+  },
+  image: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+  },
+  name: {
+    fontSize: 16,
+    marginTop: 5,
+  },
+  description: {
+    fontSize: 16,
+    marginTop: 5,
+  },
+  date: {
+    fontSize: 11,
+    marginTop: 5,
+    color: "grey",
+  },
+  item: {
+    aspectRatio: 1,
+    width: '100%',
+    flex: 1,
+  },
+  undefinedItem: {
+    height: 40,
+    resizeMode: 'contain',
+  },
+  marker: {
+    position: 'absolute',
+    bottom: -8, // adjust the value to change the distance from the bottom
+    right: 5, // adjust the value to change the distance from the right
+    padding: 3, // adjust the padding as needed
+    borderRadius: 5, // adjust the border radius as needed
+  },
 });
 
