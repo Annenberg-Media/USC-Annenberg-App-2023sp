@@ -15,13 +15,13 @@ const Popular = () => {
     const html = response.data;
     const $ = cheerio.load(html);
     const curVideos = [];
-    
-    $('entry').each(function(i, elem) {
+
+    $('entry').each(function (i, elem) {
       const videoId = $(elem).find('yt\\:videoId').text();
       const title = $(elem).find('title').text();
       const date = $(elem).find('published').text();
       const description = $(elem).find('media\\:description').text();
-      const fullVideoId = 'https://www.youtube.com/embed/'+videoId;
+      const fullVideoId = 'https://www.youtube.com/embed/' + videoId;
 
       const datePT = new Date(date);
       // Format the date string in the desired format
@@ -68,71 +68,65 @@ const Popular = () => {
     setRefresh(false);
   }, []);
 
-return (
-  <>
-    <View style={styles.container}>
-      <View style={styles.imageView}>
-        <Image
-          source={{ uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51' }}
-          style={styles.image}
-        />
-      </View>
+  return (
+    <>
+      <View style={styles.container}>
 
-      <ScrollView refreshControl={
+        <ScrollView refreshControl={
           <RefreshControl refresh={refresh} onRefresh={onRefresh} />
         }>
-        <View style={styles.container}>
-          {videos && <Videos videos={videos}/>}
-        </View>
-      </ScrollView>
+          <View style={styles.container}>
+            {videos && <Videos videos={videos} />}
+          </View>
+        </ScrollView>
 
-      {isLoading && (
-        <View style={styles.loadingHint}>
-          <Text style={styles.loadingText}>Loading...</Text>
-          <ActivityIndicator size="large" color="#9a0000" />
-        </View>
-      )}
-    </View>
-  </>
-);
+        {isLoading && (
+          <View style={styles.loadingHint}>
+            <Text style={styles.loadingText}>Loading...</Text>
+            <ActivityIndicator size="large" color="#9a0000" />
+          </View>
+        )}
+      </View>
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
-container: {
-  flex: 1,
-  justifyContent: 'center',
-  alignItems: 'center',
-},
-fonts: {
-  marginBottom: 8,
-},
-user: {
-  flexDirection: 'row',
-  marginBottom: 6,
-},
-image: {
-  height: 50,
-  marginLeft: 5,
-  marginRight: 5,
-  marginTop: 5,
-  resizeMode: 'contain',
-},
-imageView: {
-  width: '95%',
-},
-name: {
-  fontSize: 16,
-  marginTop: 5,
-},
-loadingHint: {
-  height: 80,
-  alignItems: 'center',
-},
-loadingText: {
-  fontSize: 18,
-  color: 'grey',
-  marginBottom: 16,
-},
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  fonts: {
+    marginBottom: 8,
+  },
+  user: {
+    flexDirection: 'row',
+    marginBottom: 6,
+  },
+  image: {
+    height: 50,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 5,
+    resizeMode: 'contain',
+  },
+  imageView: {
+    width: '95%',
+  },
+  name: {
+    fontSize: 16,
+    marginTop: 5,
+  },
+  loadingHint: {
+    height: 80,
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 18,
+    color: 'grey',
+    marginBottom: 16,
+  },
 });
 
 export default Popular;

@@ -5,17 +5,17 @@ import Medias from './Medias';
 import Favorites from './Favorites';
 
 const Me = () => {
-return (
-  <>
-    <View style={styles.container}>
+  return (
+    <>
       <View style={styles.container}>
-        <Text style={styles.text}>Find Us Here:</Text>
-        <Medias/>
-        <Favorites/>
+        <View style={styles.container}>
+          <Text style={styles.text}>Follow Us</Text>
+          <Medias />
+          <Favorites />
+        </View>
       </View>
-    </View>
-  </>
-);
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -34,10 +34,11 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: 15,
     fontWeight: 'bold',
-    fontStyle: 'italic',
-    // textAlign: 'center',
+    // fontStyle: 'italic',
+    textAlign: 'center',
     textTransform: 'uppercase',
     padding: 8,
+    marginTop: 12,
   },
 });
 

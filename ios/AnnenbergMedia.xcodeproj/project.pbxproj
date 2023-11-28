@@ -78,7 +78,6 @@
 				154047FD9013E2D94F2F9B69 /* Pods-AnnenbergMedia.debug.xcconfig */,
 				EACCA3ACE39FF23B3740E247 /* Pods-AnnenbergMedia.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

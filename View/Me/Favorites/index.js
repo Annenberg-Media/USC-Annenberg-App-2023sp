@@ -8,18 +8,18 @@ import LikedVideo from './LikedVideo';
 const Favorites = () => {
 
   const Tab = createMaterialTopTabNavigator();
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.likedThingText}>Favorites</Text>
-      <Tab.Navigator 
-      screenOptions={{
-        "tabBarActiveTintColor": "#9a0000",
-        "tabBarInactiveTintColor": "#b3b3b3",
-        "tabBarIndicatorStyle": {
-          "backgroundColor": "#9a0000"
-        }
-      }}>
+      <Tab.Navigator
+        screenOptions={{
+          "tabBarActiveTintColor": "#9a0000",
+          "tabBarInactiveTintColor": "#b3b3b3",
+          "tabBarIndicatorStyle": {
+            "backgroundColor": "#9a0000"
+          }
+        }}>
         <Tab.Screen name="News" component={LikedNews} />
         <Tab.Screen name="Radios" component={LikedAudio} />
         <Tab.Screen name="Videos" component={LikedVideo} />
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5,
   },
-  likedThingText:{
+  likedThingText: {
     fontFamily: 'Arial',
     color: '#9a0000',
     fontSize: 24,
@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
     textAlign: 'center',
     textTransform: 'uppercase',
+    padding: 24,
   },
 });
 

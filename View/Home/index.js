@@ -19,14 +19,14 @@ const Home = ({ navigation }) => {
     const $ = cheerio.load(html);
     const curNews = [];
 
-    $('item').each(function(i, elem) {
+    $('item').each(function (i, elem) {
       const title = $(elem).find('title').text();
       const link = $(elem).find('guid').text();
       const date = $(elem).find('pubDate').text();
       const description = $(elem).find('description').text();
 
       // const datetime = new Date(Date.parse(date));
-      
+
       // const year = datetime.getFullYear();
       // const month = ('0' + (datetime.getMonth() + 1)).slice(-2); // add leading zero and ensure 2 digits
       // const day = ('0' + datetime.getDate()).slice(-2); // add leading zero and ensure 2 digits
@@ -35,7 +35,7 @@ const Home = ({ navigation }) => {
 
       // const formattedDatetimeString = `${year}-${month}-${day} ${hours}:${minutes}`;
       // console.log(formattedDatetimeString);
-      
+
       curNews.push({
         title: title,
         link: link,
@@ -46,12 +46,12 @@ const Home = ({ navigation }) => {
     });
     return curNews;
   };
-  
+
   const fetchImgIni = async () => {
     const data = await fetchData();
     const newData = [];
     const length = initialNum > data.length ? data.length : initialNum;
-    for(let i=0; i<length; i++) {
+    for (let i = 0; i < length; i++) {
       // console.log(i, data[i].link)
       const curresponse = await axios.get(data[i].link);
       const curhtml = curresponse.data;
@@ -75,10 +75,10 @@ const Home = ({ navigation }) => {
   const fetchImg = async () => {
     const data = await fetchData();
     const newData = [];
-    if(initialNum > data.length){
+    if (initialNum > data.length) {
       return newData;
     }
-    for(let i=initialNum; i<data.length; i++) {
+    for (let i = initialNum; i < data.length; i++) {
       // console.log(i, data[i].link)
       const curresponse = await axios.get(data[i].link);
       const curhtml = curresponse.data;
@@ -125,13 +125,13 @@ const Home = ({ navigation }) => {
   return (
     <>
       <ScrollView refreshControl={
-          <RefreshControl refresh={refresh} onRefresh={onRefresh} />
-        }>
+        <RefreshControl refresh={refresh} onRefresh={onRefresh} />
+      }>
 
         <Weather />
 
         <View style={styles.container}>
-          {news && <News news={news}/>}
+          {news && <News news={news} />}
         </View>
 
         {isLoading && (
@@ -147,35 +147,35 @@ const Home = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-container: {
-  flex: 1,
-  justifyContent: 'center',
-},
-fonts: {
-  marginBottom: 8,
-},
-user: {
-  flexDirection: 'row',
-  marginBottom: 6,
-},
-image: {
-  height: 50,
-  marginLeft: 5,
-  marginRight: 5,
-},
-name: {
-  fontSize: 16,
-  marginTop: 5,
-},
-loadingHint: {
-  height: 80,
-  alignItems: 'center',
-},
-loadingText: {
-  fontSize: 18,
-  color: 'grey',
-  marginBottom: 16,
-},
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  fonts: {
+    marginBottom: 8,
+  },
+  user: {
+    flexDirection: 'row',
+    marginBottom: 6,
+  },
+  image: {
+    height: 50,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  name: {
+    fontSize: 16,
+    marginTop: 5,
+  },
+  loadingHint: {
+    height: 80,
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: 18,
+    color: 'grey',
+    marginBottom: 16,
+  },
 });
 
 export default Home;

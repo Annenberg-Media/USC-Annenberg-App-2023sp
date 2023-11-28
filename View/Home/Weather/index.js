@@ -44,40 +44,41 @@ const Weather = () => {
         const weatherUrl = `${BASE_WEATHER_URL}lat=${ipLatitude}&lon=${ipLongitude}&units=imperial&appid=${WEATHER_API_KEY}`;
         const response = await fetch(weatherUrl)
         const result = await response.json()
-        
-        if(response.ok){
-         setCurrentWeather(result.main.temp)
-         setCurrentWeatherDetails(result)
-         const icon = 'https://openweathermap.org/img/wn/'+result.weather[0].icon+'@4x.png';
-         setIconUrl(icon);
+
+        if (response.ok) {
+          result.main.temp = Math.round(result.main.temp);
+          setCurrentWeather(Math.round(result.main.temp));
+          setCurrentWeatherDetails(result);
+          const icon = 'https://openweathermap.org/img/wn/' + result.weather[0].icon + '@4x.png';
+          setIconUrl(icon);
         }
         else {
           setErrorMessage(result.message)
         }
-  
+
       } catch (error) {
         setErrorMessage(error.message)
       }
     })();
 
   }, []);
-  
-  
-  
+
+
+
   return (
     <View>
       {currentWeatherDetails && (
         <View style={styles.container}>
-        <View style={styles.card}>
-          <View style={styles.vertical}>
-            <Image style={styles.icon} source={{uri: iconUrl}} />
-            <Text style={styles.description}>{currentWeatherDetails.weather[0].description}</Text>
+          <View style={styles.card}>
+            <Text style={styles.temperature}>{currentWeatherDetails.main.temp}°F</Text>
+            <Text style={styles.location}>{currentWeatherDetails.name}</Text>
+            <View style={styles.vertical}>
+              <Image style={styles.icon} source={{ uri: iconUrl }} />
+              <Text style={styles.description}>{currentWeatherDetails.weather[0].description}</Text>
+            </View>
           </View>
-          <Text style={styles.temperature}>{currentWeatherDetails.main.temp}°F</Text>
-          <Text style={styles.location}>{currentWeatherDetails.name}</Text>
         </View>
-        </View>
-        )
+      )
       }
     </View>
   );

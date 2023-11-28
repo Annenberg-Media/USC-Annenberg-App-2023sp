@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Annenberg Media",
+    "name": "Annenberg Media News",
     "slug": "usc-annenberg-app-2023sp",
     "version": "1.1.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon1.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.junmengxu.uscannenbergapp2023sp"
+      "bundleIdentifier": "com.annenbergmedia.news"
     },
     "android": {
       "adaptiveIcon": {
@@ -35,6 +35,6 @@
         "projectId": "f2e9ee3b-c847-4c2d-9992-bdb1ce25f88b"
       }
     },
-    "owner": "junmengxu"
+    "owner": "annenberg-media"
   }
 }
