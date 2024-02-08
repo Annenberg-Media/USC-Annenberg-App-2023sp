@@ -2,7 +2,7 @@
   "expo": {
     "name": "Annenberg Media News",
     "slug": "usc-annenberg-app-2023sp",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/icon2.png",
     "userInterfaceStyle": "light",

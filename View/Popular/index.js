@@ -21,7 +21,7 @@ const Popular = () => {
       const title = $(elem).find('title').text();
       const date = $(elem).find('published').text();
       const description = $(elem).find('media\\:description').text();
-      const fullVideoId = 'https://www.youtube.com/embed/' + videoId;
+      const fullVideoId = 'https://www.youtube.com/embed/' + videoId + '?modestbranding=1';
 
       const datePT = new Date(date);
       // Format the date string in the desired format

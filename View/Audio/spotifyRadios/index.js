@@ -6,9 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AudioContext } from '../../Context/audioContext';
 
-const SpotifyRadio = ({radios}) => {
-  
-  const {audioData, updateAudioData } = useContext(AudioContext);
+const SpotifyRadio = ({ radios }) => {
+
+  const { audioData, updateAudioData } = useContext(AudioContext);
 
   const handleLike = (item) => {
     let updatedLikedAudio;
@@ -33,37 +33,41 @@ const SpotifyRadio = ({radios}) => {
     <>
       <ScrollView>
         <View style={styles.container}>
-            {radios.map((r, i) => {
-              const isLiked = audioData.findIndex(audios => audios.link === r.link) !== -1;
+          {radios.map((r, i) => {
+            const isLiked = audioData.findIndex(audios => audios.link === r.link) !== -1;
 
-              return (
-                <Card key={r.link}>
+            return (
+              <Card key={r.link}>
                 <Card.Title style={styles.title}>{r.title}</Card.Title>
                 <Card.Divider />
-                  <View style={styles.user}>
-                    <WebView 
-                      source={{ uri: r.radio }}
-                      style={styles.webView} 
-                      allowsInlineMediaPlayback={true}
-                      allowsFullscreenVideo={false}
-                      mediaPlaybackRequiresUserAction={false}
-                      javaScriptEnabled={true}
-                      domStorageEnabled={true}
-                      />
-                    <Text style={styles.description}>{r.description}</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      <View style={{ flexDirection: 'column' }}>
-                        <Text style={styles.date}>By{r.author}</Text>
-                        <Text style={styles.date}>- {r.date}</Text>
-                      </View>
-                      <TouchableOpacity onPress={() => handleLike(r)} style={styles.marker}>
-                          <Ionicons name={isLiked ? 'star' : 'star-outline'} size={30} color={isLiked ? '#9a0000' : '#9a0000'} />
-                      </TouchableOpacity>
+                <View style={styles.user}>
+                  <WebView
+                    source={{ uri: r.radio }}
+                    onShouldStartLoadWithRequest={(request) => {
+                      // Only allow navigating within this website
+                      return request.url.startsWith(r.radio);
+                    }}
+                    style={styles.webView}
+                    allowsInlineMediaPlayback={true}
+                    allowsFullscreenVideo={false}
+                    mediaPlaybackRequiresUserAction={false}
+                    javaScriptEnabled={true}
+                    domStorageEnabled={true}
+                  />
+                  <Text style={styles.description}>{r.description}</Text>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'column' }}>
+                      <Text style={styles.date}>By{r.author}</Text>
+                      <Text style={styles.date}>- {r.date}</Text>
                     </View>
+                    <TouchableOpacity onPress={() => handleLike(r)} style={styles.marker}>
+                      <Ionicons name={isLiked ? 'star' : 'star-outline'} size={30} color={isLiked ? '#9a0000' : '#9a0000'} />
+                    </TouchableOpacity>
                   </View>
-                </Card>
-              );
-            })}
+                </View>
+              </Card>
+            );
+          })}
         </View>
       </ScrollView>
     </>
@@ -76,23 +80,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
   title: {
-      fontSize: 20,
+    fontSize: 20,
   },
   fonts: {
-      marginBottom: 8,
+    marginBottom: 8,
   },
   user: {
-      flexDirection: 'column',
-      marginBottom: 6,
+    flexDirection: 'column',
+    marginBottom: 6,
   },
   image: {
-      width: 30,
-      height: 30,
-      marginRight: 10,
+    width: 30,
+    height: 30,
+    marginRight: 10,
   },
   name: {
-      fontSize: 16,
-      marginTop: 5,
+    fontSize: 16,
+    marginTop: 5,
   },
   description: {
     fontSize: 16,
