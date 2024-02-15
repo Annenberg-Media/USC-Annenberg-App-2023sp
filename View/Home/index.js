@@ -115,7 +115,7 @@ const Home = ({ navigation }) => {
   const onRefresh = useCallback(async () => {
     setRefresh(true);
     try {
-      fetchImgInfo();
+      await fetchImgInfo();
     } catch (error) {
       console.error(error);
     }

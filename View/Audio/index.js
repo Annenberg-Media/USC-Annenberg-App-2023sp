@@ -117,7 +117,7 @@ const Audio = () => {
   const onRefresh = useCallback(async () => {
     setRefresh(true);
     try {
-      fetchRadiosInfo();
+      await fetchRadiosInfo();
     } catch (error) {
       console.error(error);
     }
