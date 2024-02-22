@@ -128,7 +128,7 @@ const Audio = () => {
     <>
       <ScrollView refreshControl={
         <RefreshControl refresh={refresh} onRefresh={onRefresh} />
-      }>
+      } overScrollMode={"never"}>
 
         <View style={styles.container}>
           {radios && <SpotifyRadio radios={radios} />}

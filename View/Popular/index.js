@@ -74,7 +74,7 @@ const Popular = () => {
 
         <ScrollView refreshControl={
           <RefreshControl refresh={refresh} onRefresh={onRefresh} />
-        }>
+        } overScrollMode={"never"}>
           <View style={styles.container}>
             {videos && <Videos videos={videos} />}
           </View>

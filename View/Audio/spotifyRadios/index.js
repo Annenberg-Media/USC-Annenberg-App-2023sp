@@ -31,7 +31,7 @@ const SpotifyRadio = ({radios}) => {
 
     return (
         <>
-            <ScrollView>
+            <ScrollView overScrollMode={"never"}>
                 <View style={styles.container}>
                     {radios.map((r, i) => {
                         const isLiked = audioData.findIndex(audios => audios.link === r.link) !== -1;
@@ -119,8 +119,6 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         zIndex: 1,
-        opacity: 0.99,  // set to 0.99 to fix the issue of app crashing on Android with error SIGSEGV
-        overflow: 'hidden', // set to hidden to fix the issue of app crashing on Android with error SIGSEGV
     },
     marker: {
         position: 'absolute',

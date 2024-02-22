@@ -31,7 +31,7 @@ const Videos = ({ videos }) => {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView overScrollMode={"never"}>
         <View>
           {videos.map((v, i) => {
             const isLiked = videoData.findIndex(videos => videos.videoId === v.videoId) !== -1;
@@ -94,8 +94,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     zIndex: 1,
-    opacity: 0.99, // set to 0.99 to fix the issue of app crashing on Android with error SIGSEGV
-    overflow: 'hidden', // fix the issue of video not playing on Android with error SIGSEGV
   },
   cardContent: {
     padding: 16,
