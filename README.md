@@ -1,5 +1,7 @@
 # USC-Annenberg-App-2023sp
 
+Forked from the [original repo](https://github.com/JunmengXu/USC-Annenberg-App-2023sp) by [Junmeng Xu](https://github.com/JunmengXu)
+
 In case of problems,
 uninstall ios/Podfile.lock, ios/Pods/*, ios/build/*,
 
