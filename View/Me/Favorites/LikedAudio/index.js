@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
-import { Alert, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Text, Card, } from '@rneui/themed';
+import React, {useContext} from 'react';
+import {Alert, View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {Text, Card,} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import WebView from 'react-native-webview';
-import { AudioContext } from '../../../Context/audioContext';
+import {AudioContext} from '../../../Context/audioContext';
 
 const LikedAudio = () => {
-  const { audioData, updateAudioData } = useContext(AudioContext);
+  const {audioData, updateAudioData} = useContext(AudioContext);
 
   const handleAudioLike = (item) => {
     let updatedLikedAudio;
@@ -31,58 +31,57 @@ const LikedAudio = () => {
   const handlePress = (item) => {
     Alert.alert(
       "Confirm",
-      "Are you sure you want to unlike this audio?",
+      "Are you sure you want to remove this saved podcast?",
       [
         {
           text: "Cancel",
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "OK", onPress: () => handleAudioLike(item) }
+        {text: "OK", onPress: () => handleAudioLike(item)}
       ]
-   );
+    );
   };
 
   return (
     <ScrollView>
-        <View style={styles.container}>
-        {/* <Text style={styles.likedThingText}>Liked Radios</Text> */}
+      <View style={styles.container}>
         {audioData.length > 0 ? (
-            <View>
+          <View>
             {audioData.map(r => {
-                return (
+              return (
                 <Card key={r.link}>
-                    <Card.Title>{r.title}</Card.Title>
-                    <Card.Divider />
-                    <View style={styles.user}>
-                        <WebView 
-                        source={{ uri: r.radio }}
-                        style={styles.webView} 
-                        allowsInlineMediaPlayback={true}
-                        allowsFullscreenVideo={false}
-                        mediaPlaybackRequiresUserAction={false}
-                        javaScriptEnabled={true}
-                        domStorageEnabled={true}
-                        />
-                        <Text style={styles.description}>{r.description}</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text style={styles.date}>By{r.author}</Text>
-                            <Text style={styles.date}>- {r.date}</Text>
-                        </View>
-                        <TouchableOpacity onPress={() => handlePress(r)} style={styles.marker}>
-                            <Ionicons name={'star'} size={30} color={'#9a0000'} />
-                        </TouchableOpacity>
-                        </View>
+                  <Card.Title>{r.title}</Card.Title>
+                  <Card.Divider/>
+                  <View style={styles.user}>
+                    <WebView
+                      source={{uri: r.radio}}
+                      style={styles.webView}
+                      allowsInlineMediaPlayback={true}
+                      allowsFullscreenVideo={false}
+                      mediaPlaybackRequiresUserAction={false}
+                      javaScriptEnabled={true}
+                      domStorageEnabled={true}
+                    />
+                    <Text style={styles.description}>{r.description}</Text>
+                    <View style={{flexDirection: 'row'}}>
+                      <View style={{flexDirection: 'column'}}>
+                        <Text style={styles.date}>By{r.author}</Text>
+                        <Text style={styles.date}>- {r.date}</Text>
+                      </View>
+                      <TouchableOpacity onPress={() => handlePress(r)} style={styles.marker}>
+                        <Ionicons name={'bookmark'} size={30} color={'#9a0000'}/>
+                      </TouchableOpacity>
                     </View>
-                    </Card>
-                );
+                  </View>
+                </Card>
+              );
             })}
-            </View>
+          </View>
         ) : (
-            <Text style={styles.noLikedNewsText}>No liked radios yet.</Text>
+          <Text style={styles.noLikedNewsText}>No liked radios yet.</Text>
         )}
-        </View>
+      </View>
     </ScrollView>
   );
 };
@@ -94,7 +93,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
   },
-  likedThingText:{
+  likedThingText: {
     fontFamily: 'Chalkboard SE',
     color: '#9a0000',
     fontSize: 24,

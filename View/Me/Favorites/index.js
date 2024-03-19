@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {View, StyleSheet, Text} from 'react-native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import LikedNews from './LikedNews';
 import LikedAudio from './LikedAudio';
 import LikedVideo from './LikedVideo';
@@ -11,18 +11,18 @@ const Favorites = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.likedThingText}>Favorites</Text>
+      <Text style={styles.likedThingText}>Saved</Text>
       <Tab.Navigator
         screenOptions={{
-          "tabBarActiveTintColor": "#9a0000",
+          "tabBarActiveTintColor": "#990000",
           "tabBarInactiveTintColor": "#b3b3b3",
           "tabBarIndicatorStyle": {
-            "backgroundColor": "#9a0000"
+            "backgroundColor": "#990000"
           }
         }}>
-        <Tab.Screen name="News" component={LikedNews} />
-        <Tab.Screen name="Radios" component={LikedAudio} />
-        <Tab.Screen name="Videos" component={LikedVideo} />
+        <Tab.Screen name="News" component={LikedNews}/>
+        <Tab.Screen name="Radios" component={LikedAudio}/>
+        <Tab.Screen name="Videos" component={LikedVideo}/>
       </Tab.Navigator>
     </View>
   );

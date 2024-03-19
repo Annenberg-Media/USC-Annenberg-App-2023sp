@@ -65,11 +65,12 @@ const News = ({news}) => {
                       <Text style={styles.description}>{n.subheadlines.basic}</Text>
                       <View style={{flexDirection: 'row'}}>
                         {n.display_date !== undefined &&
-                          <Text style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+                          <Text
+                            style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
                         }
                       </View>
                       <TouchableOpacity onPress={() => handleLike(n)} style={styles.marker}>
-                        <Ionicons name={isLiked ? 'star' : 'star-outline'} size={30}
+                        <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
                                   color={isLiked ? '#990000' : '#990000'}/>
                       </TouchableOpacity>
                     </View>

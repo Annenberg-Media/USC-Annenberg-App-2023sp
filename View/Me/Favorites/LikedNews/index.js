@@ -1,16 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { Alert, View, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView, } from 'react-native';
-import { Text, Card, Image, } from '@rneui/themed';
+import React, {useContext, useState} from 'react';
+import {Alert, View, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView,} from 'react-native';
+import {Text, Card, Image,} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { NewsContext } from '../../../Context/newsContext';
-import { useNavigation } from '@react-navigation/native';
+import {NewsContext} from '../../../Context/newsContext';
+import {useNavigation} from '@react-navigation/native';
 import {format} from "date-fns";
 
 const LikedNews = () => {
   const BASE_AM_URL = 'https://uscannenbergmedia.com';
 
-  const { newsData, updateNewsData } = useContext(NewsContext);
+  const {newsData, updateNewsData} = useContext(NewsContext);
 
   // used for redirecting detail news
   const navigation = useNavigation();
@@ -44,7 +44,7 @@ const LikedNews = () => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "OK", onPress: () => handleNewsLike(item) }
+        {text: "OK", onPress: () => handleNewsLike(item)}
       ]
     );
   };
@@ -59,31 +59,32 @@ const LikedNews = () => {
               return (
                 <TouchableOpacity
                   key={n.canonical_url}
-                  onPress={() => navigation.navigate('NewsDetail', { link: BASE_AM_URL + n.canonical_url })}
+                  onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + n.canonical_url})}
                 >
                   <Card>
                     <Card.Title>{n.headlines.basic}</Card.Title>
-                    <Card.Divider />
+                    <Card.Divider/>
                     <View style={styles.user}>
                       {n.promo_items.basic.additional_properties.resizeUrl !== undefined && <Image
-                        source={{ uri: BASE_AM_URL + n.promo_items.basic.additional_properties.resizeUrl }}
+                        source={{uri: BASE_AM_URL + n.promo_items.basic.additional_properties.resizeUrl}}
                         containerStyle={styles.item}
-                        PlaceholderContent={<ActivityIndicator />}
+                        PlaceholderContent={<ActivityIndicator/>}
                       />}
                       {n.promo_items.basic.additional_properties.resizeUrl === undefined && <Image
-                        source={{ uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51' }}
+                        source={{uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51'}}
                         containerStyle={styles.undefinedItem}
-                        PlaceholderContent={<ActivityIndicator />}
+                        PlaceholderContent={<ActivityIndicator/>}
                       />}
                       <Text style={styles.description}>{n.subheadlines.basic}</Text>
-                      <View style={{ flexDirection: 'row' }}>
+                      <View style={{flexDirection: 'row'}}>
                         {n.display_date !== undefined &&
-                          <Text style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+                          <Text
+                            style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
                         }
                       </View>
-                        <TouchableOpacity onPress={() => handlePress(n)} style={styles.marker}>
-                          <Ionicons name={'star'} size={30} color={'#990000'} />
-                        </TouchableOpacity>
+                      <TouchableOpacity onPress={() => handlePress(n)} style={styles.marker}>
+                        <Ionicons name={'bookmark'} size={30} color={'#990000'}/>
+                      </TouchableOpacity>
                     </View>
                   </Card>
 

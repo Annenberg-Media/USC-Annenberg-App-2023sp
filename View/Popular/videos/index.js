@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
-import { View, StyleSheet, ScrollView, TouchableOpacity, } from 'react-native';
-import { Text, Card, } from '@rneui/themed';
-import { WebView } from 'react-native-webview';
+import React, {useContext} from 'react';
+import {View, StyleSheet, ScrollView, TouchableOpacity,} from 'react-native';
+import {Text, Card,} from '@rneui/themed';
+import {WebView} from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { VideoContext } from '../../Context/videoContext';
+import {VideoContext} from '../../Context/videoContext';
 
-const Videos = ({ videos }) => {
+const Videos = ({videos}) => {
 
-  const { videoData, updateVideoData } = useContext(VideoContext);
+  const {videoData, updateVideoData} = useContext(VideoContext);
 
   const handleLike = (item) => {
     let updatedLikedVideo;
@@ -38,10 +38,10 @@ const Videos = ({ videos }) => {
             return (
               <Card key={v.videoId}>
                 <Card.Title style={styles.title}>{v.title}</Card.Title>
-                <Card.Divider />
+                <Card.Divider/>
                 <View style={styles.title}>
                   <WebView
-                    source={{ uri: v.videoId }}
+                    source={{uri: v.videoId}}
                     onShouldStartLoadWithRequest={(request) => {
                       // Only allow navigating within this website
                       return request.url.startsWith(v.videoId);
@@ -56,14 +56,9 @@ const Videos = ({ videos }) => {
                   />
 
                   <Text style={styles.date}>{v.date}</Text>
-                  {/* <ScrollView style={styles.desView}>
-                                        <View style={styles.cardContent}>
-                                            <Text style={styles.description}>{v.description}</Text>
-                                            <Text style={styles.date}>{v.date}</Text>
-                                        </View>
-                                    </ScrollView> */}
                   <TouchableOpacity onPress={() => handleLike(v)} style={styles.marker}>
-                    <Ionicons name={isLiked ? 'star' : 'star-outline'} size={30} color={isLiked ? '#9a0000' : '#9a0000'} />
+                    <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
+                              color={isLiked ? '#990000' : '#990000'}/>
                   </TouchableOpacity>
                 </View>
               </Card>

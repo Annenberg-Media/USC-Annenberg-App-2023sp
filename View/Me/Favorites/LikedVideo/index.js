@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
-import { Alert, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Text, Card, } from '@rneui/themed';
+import React, {useContext} from 'react';
+import {Alert, View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {Text, Card,} from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import WebView from 'react-native-webview';
-import { VideoContext } from '../../../Context/videoContext';
+import {VideoContext} from '../../../Context/videoContext';
 
 const LikedVideo = () => {
-  const { videoData, updateVideoData } = useContext(VideoContext);
+  const {videoData, updateVideoData} = useContext(VideoContext);
 
   const handleVideoLike = (item) => {
     let updatedLikedVideo;
@@ -31,57 +31,56 @@ const LikedVideo = () => {
   const handlePress = (item) => {
     Alert.alert(
       "Confirm",
-      "Are you sure you want to unlike this vedio?",
+      "Are you sure you want to remove this saved video?",
       [
         {
           text: "Cancel",
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "OK", onPress: () => handleVideoLike(item) }
+        {text: "OK", onPress: () => handleVideoLike(item)}
       ]
-   );
+    );
   };
-  
+
   return (
     <ScrollView>
-        <View style={styles.container}>
-        {/* <Text style={styles.likedThingText}>Liked Videos</Text> */}
+      <View style={styles.container}>
         {videoData.length > 0 ? (
-            <View>
+          <View>
             {videoData.map(v => {
-                return (
+              return (
                 <Card key={v.videoId}>
-                    <Card.Title style={styles.title}>{v.title}</Card.Title>
-                    <Card.Divider />
-                        <View style={styles.title}>
-                            <WebView
-                                source={{ uri: v.videoId }}
-                                allowsInlineMediaPlayback={true}
-                                allowsFullscreenVideo={false}
-                                mediaPlaybackRequiresUserAction={false}
-                                javaScriptEnabled={true}
-                                domStorageEnabled={true}
-                                style={styles.webView}
-                            />
-                            <ScrollView style={styles.desView}>
-                                <View style={styles.cardContent}>
-                                    <Text style={styles.videoDescription}>{v.description}</Text>
-                                    <Text style={styles.date}>{v.date}</Text>
-                                </View>
-                            </ScrollView>
-                            <TouchableOpacity onPress={() => handlePress(v)} style={styles.marker}>
-                                <Ionicons name={'star'} size={30} color={'#9a0000'} />
-                            </TouchableOpacity>
-                        </View>
+                  <Card.Title style={styles.title}>{v.title}</Card.Title>
+                  <Card.Divider/>
+                  <View style={styles.title}>
+                    <WebView
+                      source={{uri: v.videoId}}
+                      allowsInlineMediaPlayback={true}
+                      allowsFullscreenVideo={false}
+                      mediaPlaybackRequiresUserAction={false}
+                      javaScriptEnabled={true}
+                      domStorageEnabled={true}
+                      style={styles.webView}
+                    />
+                    <ScrollView style={styles.desView}>
+                      <View style={styles.cardContent}>
+                        <Text style={styles.videoDescription}>{v.description}</Text>
+                        <Text style={styles.date}>{v.date}</Text>
+                      </View>
+                    </ScrollView>
+                    <TouchableOpacity onPress={() => handlePress(v)} style={styles.marker}>
+                      <Ionicons name={'bookmark'} size={30} color={'#9a0000'}/>
+                    </TouchableOpacity>
+                  </View>
                 </Card>
-                );
+              );
             })}
-            </View>
+          </View>
         ) : (
-            <Text style={styles.noLikedNewsText}>No liked videos yet.</Text>
+          <Text style={styles.noLikedNewsText}>No liked videos yet.</Text>
         )}
-        </View>
+      </View>
     </ScrollView>
   );
 };
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
   },
-  likedThingText:{
+  likedThingText: {
     fontFamily: 'Chalkboard SE',
     color: '#9a0000',
     fontSize: 24,
