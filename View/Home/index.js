@@ -54,7 +54,7 @@ const Home = ({ navigation }) => {
   return (
     <>
       <ScrollView refreshControl={
-        <RefreshControl refresh={refresh} onRefresh={onRefresh}/>
+        <RefreshControl refreshing={refresh} onRefresh={onRefresh}/>
       }>
 
         <Weather />
