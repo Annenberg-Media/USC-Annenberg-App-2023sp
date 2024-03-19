@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   loadingHint: {
     height: 80,
     alignItems: 'center',
-    color: "#990000",
   },
   loadingText: {
     fontSize: 18,

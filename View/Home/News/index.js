@@ -62,7 +62,7 @@ const News = ({news}) => {
                       />}
                       <Text style={styles.description}>{n.subheadlines.basic}</Text>
                       <View style={{flexDirection: 'row'}}>
-                        {n.date !== undefined &&
+                        {n.display_date !== undefined &&
                           <Text style={styles.date}>{n.display_date}</Text>
                         }
                       </View>
