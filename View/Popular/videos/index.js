@@ -105,11 +105,8 @@ const styles = StyleSheet.create({
     height: 200,
   },
   marker: {
-    position: 'absolute',
-    bottom: -18, // adjust the value to change the distance from the bottom
-    right: 5, // adjust the value to change the distance from the right
-    padding: 3, // adjust the padding as needed
-    borderRadius: 5, // adjust the border radius as needed
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
   date: {
     fontSize: 11,

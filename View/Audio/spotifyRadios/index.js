@@ -60,11 +60,11 @@ const SpotifyRadio = ({radios}) => {
                       <Text style={styles.date}>By{r.author}</Text>
                       <Text style={styles.date}>- {r.date}</Text>
                     </View>
-                    <TouchableOpacity onPress={() => handleLike(r)} style={styles.marker}>
-                      <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
-                                color={isLiked ? '#990000' : '#990000'}/>
-                    </TouchableOpacity>
                   </View>
+                  <TouchableOpacity onPress={() => handleLike(r)} style={styles.marker}>
+                    <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
+                              color={isLiked ? '#990000' : '#990000'}/>
+                  </TouchableOpacity>
                 </View>
               </Card>
             );
@@ -121,11 +121,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   marker: {
-    position: 'absolute',
-    bottom: -8, // adjust the value to change the distance from the bottom
-    right: 5, // adjust the value to change the distance from the right
-    padding: 3, // adjust the padding as needed
-    borderRadius: 5, // adjust the border radius as needed
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
 });
 

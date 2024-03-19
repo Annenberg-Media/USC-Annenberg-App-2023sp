@@ -69,10 +69,10 @@ const LikedAudio = () => {
                         <Text style={styles.date}>By{r.author}</Text>
                         <Text style={styles.date}>- {r.date}</Text>
                       </View>
-                      <TouchableOpacity onPress={() => handlePress(r)} style={styles.marker}>
-                        <Ionicons name={'bookmark'} size={30} color={'#9a0000'}/>
-                      </TouchableOpacity>
                     </View>
+                    <TouchableOpacity onPress={() => handlePress(r)} style={styles.marker}>
+                      <Ionicons name={'bookmark'} size={30} color={'#9a0000'}/>
+                    </TouchableOpacity>
                   </View>
                 </Card>
               );
@@ -108,11 +108,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   marker: {
-    position: 'absolute',
-    bottom: -8, // adjust the value to change the distance from the bottom
-    right: 5, // adjust the value to change the distance from the right
-    padding: 3, // adjust the padding as needed
-    borderRadius: 5, // adjust the border radius as needed
+    flexDirection: "row",
+    justifyContent: "flex-end",
   },
   description: {
     fontSize: 16,
