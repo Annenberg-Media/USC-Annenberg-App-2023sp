@@ -44,7 +44,7 @@ const LikedAudio = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView overScrollMode={"never"}>
       <View style={styles.container}>
         {audioData.length > 0 ? (
           <View>

@@ -44,7 +44,7 @@ const LikedVideo = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView overScrollMode={"never"}>
       <View style={styles.container}>
         {videoData.length > 0 ? (
           <View>
