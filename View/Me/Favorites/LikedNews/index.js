@@ -65,12 +65,12 @@ const LikedNews = () => {
                     <Card.Title>{n.headlines.basic}</Card.Title>
                     <Card.Divider/>
                     <View style={styles.user}>
-                      {n.promo_items.basic.additional_properties.resizeUrl !== undefined && <Image
+                      {n.promo_items.basic.additional_properties !== undefined && <Image
                         source={{uri: BASE_AM_URL + n.promo_items.basic.additional_properties.resizeUrl}}
                         containerStyle={styles.item}
                         PlaceholderContent={<ActivityIndicator/>}
                       />}
-                      {n.promo_items.basic.additional_properties.resizeUrl === undefined && <Image
+                      {n.promo_items.basic.additional_properties === undefined && <Image
                         source={{uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51'}}
                         containerStyle={styles.undefinedItem}
                         PlaceholderContent={<ActivityIndicator/>}
