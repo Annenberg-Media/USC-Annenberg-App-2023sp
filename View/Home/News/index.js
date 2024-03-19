@@ -5,6 +5,7 @@ import {Text, Card, Image} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NewsContext} from '../../Context/newsContext';
+import {format} from "date-fns";
 
 const News = ({news}) => {
 
@@ -41,6 +42,7 @@ const News = ({news}) => {
           {
             news.map((n) => {
               const isLiked = newsData.findIndex(news => news.canonical_url === n.canonical_url) !== -1;
+
               return (
                 <TouchableOpacity
                   key={n.canonical_url}
@@ -63,7 +65,7 @@ const News = ({news}) => {
                       <Text style={styles.description}>{n.subheadlines.basic}</Text>
                       <View style={{flexDirection: 'row'}}>
                         {n.display_date !== undefined &&
-                          <Text style={styles.date}>{n.display_date}</Text>
+                          <Text style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
                         }
                       </View>
                       <TouchableOpacity onPress={() => handleLike(n)} style={styles.marker}>

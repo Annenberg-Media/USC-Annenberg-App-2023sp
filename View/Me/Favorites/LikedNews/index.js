@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { NewsContext } from '../../../Context/newsContext';
 import { useNavigation } from '@react-navigation/native';
+import {format} from "date-fns";
 
 const LikedNews = () => {
   const BASE_AM_URL = 'https://uscannenbergmedia.com';
@@ -77,7 +78,7 @@ const LikedNews = () => {
                       <Text style={styles.description}>{n.subheadlines.basic}</Text>
                       <View style={{ flexDirection: 'row' }}>
                         {n.display_date !== undefined &&
-                          <Text style={styles.date}>{n.display_date}</Text>
+                          <Text style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
                         }
                       </View>
                         <TouchableOpacity onPress={() => handlePress(n)} style={styles.marker}>
