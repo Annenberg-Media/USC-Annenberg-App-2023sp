@@ -1,18 +1,20 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { View, ScrollView, StyleSheet, ActivityIndicator, TouchableOpacity, } from 'react-native';
-import { Text, Card, Image } from '@rneui/themed';
+import React, {useEffect, useState, useContext} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {View, ScrollView, StyleSheet, ActivityIndicator, TouchableOpacity,} from 'react-native';
+import {Text, Card, Image} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NewsContext } from '../../Context/newsContext';
+import {NewsContext} from '../../Context/newsContext';
 
-const News = ({ news }) => {
+const News = ({news}) => {
 
-  const { newsData, updateNewsData } = useContext(NewsContext);
+  const BASE_AM_URL = 'https://uscannenbergmedia.com';
+
+  const {newsData, updateNewsData} = useContext(NewsContext);
 
   const handleLike = (item) => {
     let updatedLikedNews;
-    const index = newsData.findIndex(news => news.link === item.link);
+    const index = newsData.findIndex(news => news.canonical_url === item.canonical_url);
 
     if (index === -1) {
       // If news is not in likedNews, add it
@@ -36,52 +38,43 @@ const News = ({ news }) => {
     <>
       <ScrollView>
         <View>
-          {news.map((n, i) => {
-            const isLiked = newsData.findIndex(news => news.link === n.link) !== -1;
-
-            // Function to extract https URL from a string
-            const extractHttpsUrl = (text) => {
-              const urlRegex = /https:\/\/[^\s"]+/g; // Regex to find https URL
-              const match = text && text.match(urlRegex);
-              return match ? match[0] : null;
-            };
-
-            // Extract the https URL if present
-            const imgSrc = extractHttpsUrl(n.img);
-
-            return (
-              <TouchableOpacity
-                key={n.link}
-                onPress={() => navigation.navigate('NewsDetail', { link: n.link })}
-              >
-                <Card>
-                  <Card.Title style={styles.title}>{n.title}</Card.Title>
-                  <Card.Divider />
-                  <View style={styles.user}>
-                    {n.img !== undefined && <Image
-                      source={{ uri: imgSrc }}
-                      containerStyle={styles.item}
-                      PlaceholderContent={<ActivityIndicator />}
-                    />}
-                    {n.img === undefined && <Image
-                      source={{ uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51' }}
-                      containerStyle={styles.undefinedItem}
-                      PlaceholderContent={<ActivityIndicator />}
-                    />}
-                    <Text style={styles.description}>{n.description}</Text>
-                    <View style={{ flexDirection: 'row' }}>
-                      {n.date !== undefined &&
-                        <Text style={styles.date}>{n.date}</Text>
-                      }
+          {
+            news.map((n) => {
+              const isLiked = newsData.findIndex(news => news.canonical_url === n.canonical_url) !== -1;
+              return (
+                <TouchableOpacity
+                  key={n.canonical_url}
+                  onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + n.canonical_url})}
+                >
+                  <Card>
+                    <Card.Title style={styles.title}>{n.headlines.basic}</Card.Title>
+                    <Card.Divider/>
+                    <View style={styles.user}>
+                      {n.promo_items.basic.additional_properties.resizeUrl !== undefined && <Image
+                        source={{uri: BASE_AM_URL + n.promo_items.basic.additional_properties.resizeUrl}}
+                        containerStyle={styles.item}
+                        PlaceholderContent={<ActivityIndicator/>}
+                      />}
+                      {n.promo_items.basic.additional_properties.resizeUrl === undefined && <Image
+                        source={{uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51'}}
+                        containerStyle={styles.undefinedItem}
+                        PlaceholderContent={<ActivityIndicator/>}
+                      />}
+                      <Text style={styles.description}>{n.subheadlines.basic}</Text>
+                      <View style={{flexDirection: 'row'}}>
+                        {n.date !== undefined &&
+                          <Text style={styles.date}>{n.display_date}</Text>
+                        }
+                      </View>
                       <TouchableOpacity onPress={() => handleLike(n)} style={styles.marker}>
-                        <Ionicons name={isLiked ? 'star' : 'star-outline'} size={30} color={isLiked ? '#9a0000' : '#9a0000'} />
+                        <Ionicons name={isLiked ? 'star' : 'star-outline'} size={30}
+                                  color={isLiked ? '#990000' : '#990000'}/>
                       </TouchableOpacity>
                     </View>
-                  </View>
-                </Card>
-              </TouchableOpacity>
-            );
-          })}
+                  </Card>
+                </TouchableOpacity>
+              );
+            })}
         </View>
       </ScrollView>
     </>
@@ -134,11 +127,9 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   marker: {
-    position: 'absolute',
-    bottom: -8, // adjust the value to change the distance from the bottom
-    right: 5, // adjust the value to change the distance from the right
-    padding: 3, // adjust the padding as needed
-    borderRadius: 5, // adjust the border radius as needed
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginTop: 5,
   },
 });
 

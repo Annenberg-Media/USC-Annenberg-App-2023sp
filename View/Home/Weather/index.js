@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Image } from '@rneui/themed';
-import * as Location from 'expo-location';
 
 const Weather = () => {
-  // const [locationPermission, setLocationPermission] = useState(null);
-
   const WEATHER_API_KEY = "9d754d6e12cc9d9de92ca7a0d6493882";
   const BASE_WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather?";
   const IP_URL = "https://ipapi.co/json/";
-
-  const [location, setLocation] = useState(null);
 
   const [iconUrl, setIconUrl] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
@@ -23,19 +18,6 @@ const Weather = () => {
 
     (async () => {
       try {
-        // let { status } = await Location.requestForegroundPermissionsAsync();
-        // if (status != "granted") {
-        //   setErrorMessage("Access is needed to get the weather info");
-        //   return;
-        // }
-        // setLocationPermission(status);
-        // const location = await Location.getCurrentPositionAsync({});
-        // setLocation(location);
-        // const { latitude, longitude } = location.coords;
-        // const weatherUrl = `${BASE_WEATHER_URL}lat=${latitude}&lon=${longitude}&units=imperial&appid=${WEATHER_API_KEY}`;
-        // const response = await fetch(weatherUrl)
-        // const result = await response.json()
-
         const responseIP = await fetch(IP_URL)
         const resultIP = await responseIP.json()
         const ipLatitude = resultIP.latitude

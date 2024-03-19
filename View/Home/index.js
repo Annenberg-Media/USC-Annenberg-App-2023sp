@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import cheerio from 'cheerio';
 import { View, ScrollView, StyleSheet, RefreshControl, ActivityIndicator } from 'react-native';
 import { Text, } from '@rneui/themed';
 import News from './News'
@@ -8,114 +7,44 @@ import Weather from './Weather';
 
 const Home = ({ navigation }) => {
 
+  const BASE_ARC_API = 'https://arc-api.uscannenbergmedia.workers.dev?';
+
   const [refresh, setRefresh] = useState(false);
   const [news, setNews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const initialNum = 3;
 
-  const fetchData = async () => {
-    const response = await axios.get('https://www.uscannenbergmedia.com/arcio/rss/');
-    const html = response.data;
-    const $ = cheerio.load(html);
-    const curNews = [];
 
-    $('item').each(function (i, elem) {
-      const title = $(elem).find('title').text();
-      const link = $(elem).find('guid').text();
-      const date = $(elem).find('pubDate').text();
-      const description = $(elem).find('description').text();
-
-      // const datetime = new Date(Date.parse(date));
-
-      // const year = datetime.getFullYear();
-      // const month = ('0' + (datetime.getMonth() + 1)).slice(-2); // add leading zero and ensure 2 digits
-      // const day = ('0' + datetime.getDate()).slice(-2); // add leading zero and ensure 2 digits
-      // const hours = ('0' + datetime.getHours()).slice(-2); // add leading zero and ensure 2 digits
-      // const minutes = ('0' + datetime.getMinutes()).slice(-2); // add leading zero and ensure 2 digits
-
-      // const formattedDatetimeString = `${year}-${month}-${day} ${hours}:${minutes}`;
-      // console.log(formattedDatetimeString);
-
-      curNews.push({
-        title: title,
-        link: link,
-        date: date,
-        description: description,
-        img: null,
-      });
-    });
-    return curNews;
-  };
-
-  const fetchImgIni = async () => {
-    const data = await fetchData();
-    const newData = [];
-    const length = initialNum > data.length ? data.length : initialNum;
-    for (let i = 0; i < length; i++) {
-      // console.log(i, data[i].link)
-      const curresponse = await axios.get(data[i].link);
-      const curhtml = curresponse.data;
-      const $ = cheerio.load(curhtml);
-      let imgdom = $('#main > div > div:nth-child(2) > div > figure > div > picture > img').attr('src');
-      const datetime = $('#main > div > div:nth-child(2) > div > time').text();
-
-      newData.push({
-        title: data[i].title,
-        link: data[i].link,
-        date: datetime,
-        description: data[i].description,
-        img: imgdom,
-      });
-    }
-
-    setNews(newData);
-    return newData;
-  };
-
-  const fetchImg = async () => {
-    const data = await fetchData();
-    const newData = [];
-    if (initialNum > data.length) {
-      return newData;
-    }
-    for (let i = initialNum; i < data.length; i++) {
-      // console.log(i, data[i].link)
-      const curresponse = await axios.get(data[i].link);
-      const curhtml = curresponse.data;
-      const $ = cheerio.load(curhtml);
-      let imgdom = $('#main > div > div:nth-child(2) > div > figure > div > picture > img').attr('src');
-      const datetime = $('#main > div > div:nth-child(2) > div > time').text();
-
-      newData.push({
-        title: data[i].title,
-        link: data[i].link,
-        date: datetime,
-        description: data[i].description,
-        img: imgdom,
-      });
-    }
-
-    // setNews(newData);
-    return newData;
-  };
-
-  const fetchImgInfo = async () => {
-    const data1 = await fetchImgIni();
-    const data2 = await fetchImg();
-    const data3 = data1.concat(data2);
-    setNews(data3);
-    setIsLoading(false);
+  const fetchNews = async (size, from) => {
+     const response = await axios.get(BASE_ARC_API, {
+       headers: {
+         Accept: "application/json",
+         "Content-Type": "application/json"
+       },
+       params: {
+            website: 'uscannenberg',
+            q: 'type:story',
+            size: size.toString(),
+            sort: 'display_date:desc',
+            _sourceInclude: 'headlines.basic,subheadlines.basic,display_date,canonical_url,promo_items.basic.additional_properties.resizeUrl',
+            from: from.toString(),
+       }
+     })
+    return (response.data);
   }
 
   useEffect(() => {
-    // This function will only be executed once when the component mounts
-    fetchImgInfo();
+    fetchNews(20, 0).then((news) => {
+      setNews(news);
+      setIsLoading(false);
+    });
   }, []);
 
   const onRefresh = useCallback(async () => {
     setRefresh(true);
     try {
-      await fetchImgInfo();
+      fetchNews(20, 0).then((news) => {
+        setNews(news);
+      });
     } catch (error) {
       console.error(error);
     }
@@ -125,7 +54,7 @@ const Home = ({ navigation }) => {
   return (
     <>
       <ScrollView refreshControl={
-        <RefreshControl refresh={refresh} onRefresh={onRefresh} />
+        <RefreshControl refresh={refresh} onRefresh={onRefresh}/>
       }>
 
         <Weather />
@@ -137,7 +66,7 @@ const Home = ({ navigation }) => {
         {isLoading && (
           <View style={styles.loadingHint}>
             <Text style={styles.loadingText}>Loading...</Text>
-            <ActivityIndicator size="large" color="#9a0000" />
+            <ActivityIndicator size="large" color="#990000" />
           </View>
         )}
 
@@ -170,6 +99,7 @@ const styles = StyleSheet.create({
   loadingHint: {
     height: 80,
     alignItems: 'center',
+    color: "#990000",
   },
   loadingText: {
     fontSize: 18,
