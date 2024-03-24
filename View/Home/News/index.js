@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NewsContext} from '../../Context/newsContext';
 import {format} from "date-fns";
 
-const News = ({news}) => {
+const News = ({story}) => {
 
   const BASE_AM_URL = 'https://uscannenbergmedia.com';
 
@@ -35,51 +35,42 @@ const News = ({news}) => {
   // used for redirecting detail news
   const navigation = useNavigation();
 
+  const isLiked = newsData.findIndex(news => news.canonical_url === story.canonical_url) !== -1;
+
   return (
-    <>
-      <ScrollView>
-        <View>
-          {
-            news.map((n) => {
-              const isLiked = newsData.findIndex(news => news.canonical_url === n.canonical_url) !== -1;
-              return (
-                <TouchableOpacity
-                  key={n.canonical_url}
-                  onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + n.canonical_url})}
-                >
-                  <Card>
-                    <Card.Title style={styles.title}>{n.headlines.basic}</Card.Title>
-                    <Card.Divider/>
-                    <View style={styles.user}>
-                      {n.promo_items.basic.additional_properties !== undefined && <Image
-                        source={{uri: BASE_AM_URL + n.promo_items.basic.additional_properties.resizeUrl}}
-                        containerStyle={styles.item}
-                        PlaceholderContent={<ActivityIndicator/>}
-                      />}
-                      {n.promo_items.basic.additional_properties === undefined && <Image
-                        source={{uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51'}}
-                        containerStyle={styles.undefinedItem}
-                        PlaceholderContent={<ActivityIndicator/>}
-                      />}
-                      <Text style={styles.description}>{n.subheadlines.basic}</Text>
-                      <View style={{flexDirection: 'row'}}>
-                        {n.display_date !== undefined &&
-                          <Text
-                            style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
-                        }
-                      </View>
-                      <TouchableOpacity onPress={() => handleLike(n)} style={styles.marker}>
-                        <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
-                                  color={isLiked ? '#990000' : '#990000'}/>
-                      </TouchableOpacity>
-                    </View>
-                  </Card>
-                </TouchableOpacity>
-              );
-            })}
+    <TouchableOpacity
+      key={story.canonical_url}
+      onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + story.canonical_url})}
+    >
+      <Card>
+        <Card.Title style={styles.title}>{story.headlines.basic}</Card.Title>
+        <Card.Divider/>
+        <View style={styles.user}>
+          {story.promo_items.basic.additional_properties !== undefined && <Image
+            source={{uri: BASE_AM_URL + story.promo_items.basic.additional_properties.resizeUrl}}
+            containerStyle={styles.item}
+            PlaceholderContent={<ActivityIndicator/>}
+          />}
+          {story.promo_items.basic.additional_properties === undefined && <Image
+            source={{uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51'}}
+            containerStyle={styles.undefinedItem}
+            PlaceholderContent={<ActivityIndicator/>}
+          />}
+          <Text style={styles.description}>{story.subheadlines.basic}</Text>
+          <View style={{flexDirection: 'row'}}>
+            {story.display_date !== undefined &&
+              <Text
+                style={styles.date}>{format(new Date(story.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+            }
+          </View>
+          <TouchableOpacity onPress={() => handleLike(story)} style={styles.marker}>
+            <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
+                      color={isLiked ? '#990000' : '#990000'}/>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-    </>
+      </Card>
+    </TouchableOpacity>
+
   );
 };
 
