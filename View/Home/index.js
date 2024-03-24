@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
-import {View, ScrollView, StyleSheet, FlatList, RefreshControl, ActivityIndicator, SafeAreaView} from 'react-native';
+import {View, StyleSheet, FlatList, RefreshControl, ActivityIndicator, SafeAreaView} from 'react-native';
 import {Text,} from '@rneui/themed';
 import News from './News'
 import Weather from './Weather';
@@ -33,7 +33,7 @@ const Home = ({navigation}) => {
   }
 
   useEffect(() => {
-    fetchNews(20, 0).then((news) => {
+    fetchNews(30, 0).then((news) => {
       setNews(news);
       setIsLoading(false);
     });
@@ -42,7 +42,7 @@ const Home = ({navigation}) => {
   const onRefresh = useCallback(async () => {
     setRefresh(true);
     try {
-      fetchNews(20, 0).then((news) => {
+      fetchNews(30, 0).then((news) => {
         setNews(news);
       });
     } catch (error) {
@@ -51,22 +51,37 @@ const Home = ({navigation}) => {
     setRefresh(false);
   }, []);
 
+  const onScrollEnd = useCallback(async () => {
+    setIsLoading(true);
+    let currentNews = news;
+    try {
+      fetchNews(20, currentNews.length).then((news) => {
+        currentNews = currentNews.concat(news);
+        setNews(currentNews);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
+  }, [news]);
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={news}
-        renderItem={({item}) => <News story={item}/>}
-        keyExtractor={item => item.canonical_url}
+        overScrollMode={'never'}
         refreshing={refresh}
         onRefresh={onRefresh}
         ListHeaderComponent={<Weather/>}
+        data={news}
+        renderItem={({item}) => <News story={item}/>}
+        keyExtractor={item => item.canonical_url}
         ListFooterComponent={isLoading && (
           <View style={styles.loadingHint}>
             <Text style={styles.loadingText}>Loading...</Text>
             <ActivityIndicator size="large" color="#990000"/>
           </View>
         )}
-        overScrollMode={'never'}
+        onEndReached={onScrollEnd}
       />
     </SafeAreaView>
   );

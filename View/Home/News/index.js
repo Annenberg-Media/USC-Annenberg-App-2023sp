@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {View, ScrollView, StyleSheet, ActivityIndicator, TouchableOpacity,} from 'react-native';
+import {View, StyleSheet, ActivityIndicator, TouchableOpacity,} from 'react-native';
 import {Text, Card, Image} from '@rneui/themed';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
