@@ -7,7 +7,7 @@ import Weather from './Weather';
 
 const Home = ({navigation}) => {
 
-  const BASE_ARC_API = 'https://arc-api.uscannenbergmedia.workers.dev?';
+  const BASE_ARC_API = 'https://news.uscannenbergmedia.workers.dev?';
 
   const [refresh, setRefresh] = useState(false);
   const [news, setNews] = useState([]);
@@ -33,8 +33,8 @@ const Home = ({navigation}) => {
   }
 
   useEffect(() => {
-    fetchNews(30, 0).then((news) => {
-      setNews(news);
+    fetchNews(30, 0).then((newNews) => {
+      setNews(newNews);
       setIsLoading(false);
     });
   }, []);
@@ -42,8 +42,8 @@ const Home = ({navigation}) => {
   const onRefresh = useCallback(async () => {
     setRefresh(true);
     try {
-      fetchNews(30, 0).then((news) => {
-        setNews(news);
+      fetchNews(30, 0).then((newNews) => {
+        setNews(newNews);
       });
     } catch (error) {
       console.error(error);
@@ -55,8 +55,8 @@ const Home = ({navigation}) => {
     setIsLoading(true);
     let currentNews = news;
     try {
-      fetchNews(20, currentNews.length).then((news) => {
-        currentNews = currentNews.concat(news);
+      fetchNews(20, currentNews.length).then((nextNews) => {
+        currentNews = currentNews.concat(nextNews);
         setNews(currentNews);
       });
     } catch (error) {
@@ -73,7 +73,7 @@ const Home = ({navigation}) => {
         onRefresh={onRefresh}
         ListHeaderComponent={<Weather/>}
         data={news}
-        renderItem={({item}) => <News story={item}/>}
+        renderItem={({item}) => item && <News story={item}/>}
         keyExtractor={item => item.canonical_url}
         ListFooterComponent={isLoading && (
           <View style={styles.loadingHint}>
