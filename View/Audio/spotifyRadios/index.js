@@ -1,18 +1,22 @@
 import React, {useContext} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {View, StyleSheet, ScrollView, TouchableOpacity,} from 'react-native';
 import {Text, Card} from '@rneui/themed';
 import WebView from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {AudioContext} from '../../Context/audioContext';
+import {format} from "date-fns";
 
-const SpotifyRadio = ({radios}) => {
+const SpotifyRadio = ({radio}) => {
+
+  const BASE_AM_URL = 'https://uscannenbergmedia.com';
 
   const {audioData, updateAudioData} = useContext(AudioContext);
 
   const handleLike = (item) => {
     let updatedLikedAudio;
-    const index = audioData.findIndex(radios => radios.link === item.link);
+    const index = audioData.findIndex(radio => radio.canonical_url === item.canonical_url);
 
     if (index === -1) {
       // If audio is not in likedAudio, add it
@@ -29,49 +33,48 @@ const SpotifyRadio = ({radios}) => {
     });
   };
 
-  return (
-    <>
-      <ScrollView overScrollMode={"never"}>
-        <View style={styles.container}>
-          {radios.map((r, i) => {
-            const isLiked = audioData.findIndex(audios => audios.link === r.link) !== -1;
+  // used for redirecting detail news
+  const navigation = useNavigation();
 
-            return (
-              <Card key={r.link}>
-                <Card.Title style={styles.title}>{r.title}</Card.Title>
-                <Card.Divider/>
-                <View style={styles.user}>
-                  <WebView
-                    source={{uri: r.radio}}
-                    onShouldStartLoadWithRequest={(request) => {
-                      // Only allow navigating within this website
-                      return request.url.startsWith(r.radio);
-                    }}
-                    style={styles.webView}
-                    allowsInlineMediaPlayback={true}
-                    allowsFullscreenVideo={false}
-                    mediaPlaybackRequiresUserAction={false}
-                    javaScriptEnabled={true}
-                    domStorageEnabled={true}
-                  />
-                  <Text style={styles.description}>{r.description}</Text>
-                  <View style={{flexDirection: 'row'}}>
-                    <View style={{flexDirection: 'column'}}>
-                      <Text style={styles.date}>By{r.author}</Text>
-                      <Text style={styles.date}>- {r.date}</Text>
-                    </View>
-                  </View>
-                  <TouchableOpacity onPress={() => handleLike(r)} style={styles.marker}>
-                    <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
-                              color={isLiked ? '#990000' : '#990000'}/>
-                  </TouchableOpacity>
-                </View>
-              </Card>
-            );
-          })}
+  const isLiked = audioData.findIndex(item => item.canonical_url === radio.canonical_url) !== -1;
+
+  return (
+    <TouchableOpacity
+      key={radio.canonical_url}
+      onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + radio.canonical_url})}
+    >
+      <Card key={radio.canonical_url}>
+        <Card.Title style={styles.title}>{radio.headlines.basic}</Card.Title>
+        <Card.Divider/>
+        <View style={styles.user}>
+          <WebView
+            source={{uri: radio.spotify_embed}}
+            onShouldStartLoadWithRequest={(request) => {
+              // Only allow navigating within this website
+              return request.url.startsWith(radio.spotify_embed);
+            }}
+            style={styles.webView}
+            allowsInlineMediaPlayback={true}
+            allowsFullscreenVideo={false}
+            mediaPlaybackRequiresUserAction={false}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+          />
+          <Text style={styles.description}>{radio.subheadlines.basic}</Text>
+          <View style={{flexDirection: 'row'}}>
+            {radio.display_date !== undefined &&
+              <Text
+                style={styles.date}>{format(new Date(radio.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+            }
+          </View>
+          <TouchableOpacity onPress={() => handleLike(radio)} style={styles.marker}>
+            <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
+                      color={isLiked ? '#990000' : '#990000'}/>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-    </>
+      </Card>
+
+    </TouchableOpacity>
   );
 };
 
