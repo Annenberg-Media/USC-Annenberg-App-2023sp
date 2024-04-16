@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {View, StyleSheet, ActivityIndicator, TouchableOpacity,} from 'react-native';
 import {Text, Card, Image} from '@rneui/themed';

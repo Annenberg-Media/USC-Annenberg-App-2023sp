@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {View, StyleSheet, ScrollView, TouchableOpacity,} from 'react-native';
+import {View, StyleSheet, TouchableOpacity,} from 'react-native';
 import {Text, Card} from '@rneui/themed';
 import WebView from 'react-native-webview';
 import AsyncStorage from '@react-native-async-storage/async-storage';

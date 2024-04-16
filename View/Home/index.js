@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
-import {View, StyleSheet, FlatList, RefreshControl, ActivityIndicator, SafeAreaView} from 'react-native';
+import {View, StyleSheet, FlatList, ActivityIndicator, SafeAreaView} from 'react-native';
 import {Text,} from '@rneui/themed';
 import News from './News'
 import Weather from './Weather';
