@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import axios from 'axios';
 import {
   View,
@@ -17,6 +17,7 @@ const Audio = () => {
   const [radios, setRadios] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentFrom, setCurrentFrom] = useState(0);
 
   const fetchRadios = async (size, from) => {
     const response = await axios.get(BASE_ARC_API, {
@@ -40,6 +41,7 @@ const Audio = () => {
     fetchRadios(30, 0).then((newRadios) => {
       setRadios(newRadios);
       setIsLoading(false);
+      setCurrentFrom(30);
     });
   }, []);
 
@@ -48,6 +50,7 @@ const Audio = () => {
     try {
       fetchRadios(30, 0).then((newRadios) => {
         setRadios(newRadios);
+        setCurrentFrom(30);
       });
     } catch (error) {
       console.error(error);
@@ -57,17 +60,16 @@ const Audio = () => {
 
   const onScrollEnd = useCallback(async () => {
     setIsLoading(true);
-    let currentRadios = radios;
     try {
-      fetchRadios(20, currentRadios.length).then((nextRadios) => {
-        currentRadios = currentRadios.concat(nextRadios);
-        setRadios(currentRadios);
+      fetchRadios(20, currentFrom).then((nextRadios) => {
+        setRadios([...radios, ...nextRadios]);
+        setCurrentFrom(currentFrom + 20);
       });
     } catch (error) {
       console.error(error);
     }
     setIsLoading(false);
-  }, [radios]);
+  }, [radios, currentFrom]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -77,7 +79,7 @@ const Audio = () => {
         onRefresh={onRefresh}
         data={radios}
         renderItem={({item}) => item && <SpotifyRadio radio={item}/>}
-        //keyExtractor={item => item.canonical_url}
+        keyExtractor={item => item._id}
         ListFooterComponent={isLoading && (
           <View style={styles.loadingHint}>
             <Text style={styles.loadingText}>Loading...</Text>

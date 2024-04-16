@@ -74,7 +74,7 @@ const Home = ({navigation}) => {
         ListHeaderComponent={<Weather/>}
         data={news}
         renderItem={({item}) => item && <News story={item}/>}
-        keyExtractor={item => item.canonical_url}
+        keyExtractor={item => item._id}
         ListFooterComponent={isLoading && (
           <View style={styles.loadingHint}>
             <Text style={styles.loadingText}>Loading...</Text>
