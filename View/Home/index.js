@@ -25,7 +25,7 @@ const Home = ({navigation}) => {
         q: 'type:story',
         size: size.toString(),
         sort: 'display_date:desc',
-        _sourceInclude: 'headlines.basic,subheadlines.basic,display_date,canonical_url,promo_items.basic.additional_properties.resizeUrl',
+        _sourceInclude: 'headlines.basic,subheadlines.basic,display_date,canonical_url,promo_items.basic.additional_properties.resizeUrl,credits',
         from: from.toString(),
       }
     })

@@ -30,7 +30,7 @@ const Audio = () => {
         q: 'taxonomy.primary_site.path="/listen/from-where-we-are"',
         size: size.toString(),
         sort: 'display_date:desc',
-        _sourceInclude: 'headlines.basic,subheadlines.basic,display_date,canonical_url',
+        _sourceInclude: 'headlines.basic,subheadlines.basic,display_date,canonical_url,credits',
         from: from.toString(),
       }
     })

@@ -61,12 +61,13 @@ const SpotifyRadio = ({radio}) => {
             domStorageEnabled={true}
           />
           <Text style={styles.description}>{radio.subheadlines.basic}</Text>
-          <View style={{flexDirection: 'row'}}>
-            {radio.display_date !== undefined &&
-              <Text
-                style={styles.date}>{format(new Date(radio.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
-            }
-          </View>
+          {radio.credits && (
+            <Text style={styles.credits}>By {radio.credits}</Text>
+          )}
+          {radio.display_date !== undefined &&
+            <Text
+              style={styles.date}>{format(new Date(radio.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+          }
           <TouchableOpacity onPress={() => handleLike(radio)} style={styles.marker}>
             <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
                       color={isLiked ? '#990000' : '#990000'}/>
@@ -101,6 +102,11 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     marginTop: 5,
+  },
+  credits: {
+    fontSize: 14,
+    marginTop: 5,
+    color: "grey",
   },
   description: {
     fontSize: 16,

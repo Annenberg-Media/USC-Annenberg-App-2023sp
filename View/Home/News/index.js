@@ -57,12 +57,13 @@ const News = ({story}) => {
             PlaceholderContent={<ActivityIndicator/>}
           />}
           <Text style={styles.description}>{story.subheadlines.basic}</Text>
-          <View style={{flexDirection: 'row'}}>
-            {story.display_date !== undefined &&
-              <Text
-                style={styles.date}>{format(new Date(story.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
-            }
-          </View>
+          {story.credits && (
+            <Text style={styles.credits}>By {story.credits}</Text>
+          )}
+          {story.display_date !== undefined &&
+            <Text
+              style={styles.date}>{format(new Date(story.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+          }
           <TouchableOpacity onPress={() => handleLike(story)} style={styles.marker}>
             <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
                       color={isLiked ? '#990000' : '#990000'}/>
@@ -100,6 +101,11 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     marginTop: 5,
+  },
+  credits: {
+    fontSize: 14,
+    marginTop: 5,
+    color: "grey",
   },
   description: {
     fontSize: 16,
