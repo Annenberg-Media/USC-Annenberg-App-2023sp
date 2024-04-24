@@ -49,12 +49,12 @@ const News = ({story}) => {
           {story.promo_items.basic.additional_properties !== undefined && <Image
             source={{uri: BASE_AM_URL + story.promo_items.basic.additional_properties.resizeUrl}}
             containerStyle={styles.item}
-            PlaceholderContent={<ActivityIndicator/>}
+            PlaceholderContent={<ActivityIndicator style={styles.activityIndicator} />}
           />}
           {story.promo_items.basic.additional_properties === undefined && <Image
             source={{uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51'}}
             containerStyle={styles.undefinedItem}
-            PlaceholderContent={<ActivityIndicator/>}
+            PlaceholderContent={<ActivityIndicator style={styles.activityIndicator} />}
           />}
           <Text style={styles.description}>{story.subheadlines.basic}</Text>
           {story.credits && (
@@ -119,11 +119,17 @@ const styles = StyleSheet.create({
   item: {
     aspectRatio: 1,
     width: '100%',
-    flex: 1,
+    flex: 1, // Ensure it takes all the space
   },
   undefinedItem: {
     height: 40,
     resizeMode: 'contain',
+    flex: 1, // Added to ensure full parent height is used
+  },
+  activityIndicator: {
+    flex: 1, // This will ensure it takes up all available space
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   marker: {
     flexDirection: "row",
