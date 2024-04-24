@@ -40,10 +40,10 @@
 
     return (
       <TouchableOpacity
-        key={radio.canonical_url}
+        key={radio._id}
         onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + radio.canonical_url})}
       >
-        <Card key={radio.canonical_url}>
+        <Card key={radio._id}>
           <Card.Title style={styles.title}>{radio.headlines.basic}</Card.Title>
           <Card.Divider/>
           <View style={styles.user}>

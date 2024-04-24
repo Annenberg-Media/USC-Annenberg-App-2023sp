@@ -1,34 +1,32 @@
 import React, { useContext } from 'react';
-import { Alert, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Alert, View, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { Text, Card } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import WebView from 'react-native-webview';
+import { format } from 'date-fns';
 import { AudioContext } from '../../../Context/audioContext';
 
 const LikedAudio = () => {
   const { audioData, updateAudioData } = useContext(AudioContext);
 
-  const handleAudioLike = (item) => {
+  const handleAudioLike = (radio) => {
     let updatedLikedAudio;
-    const index = audioData.findIndex(radio => radio.canonical_url === item.canonical_url);
+    const index = audioData.findIndex(r => r.canonical_url === radio.canonical_url);
 
     if (index === -1) {
-      // If audio is not in likedAudio, add it
-      updatedLikedAudio = [...audioData, item];
+      updatedLikedAudio = [...audioData, radio];
     } else {
-      // If audio is already in likedAudio, remove it
       updatedLikedAudio = [...audioData];
       updatedLikedAudio.splice(index, 1);
     }
 
-    // Save updated likedAudio to AsyncStorage
     AsyncStorage.setItem('likedAudio', JSON.stringify(updatedLikedAudio)).then(() => {
       updateAudioData(updatedLikedAudio);
     });
   };
 
-  const handlePress = (item) => {
+  const handlePress = (radio) => {
     Alert.alert(
       "Confirm",
       "Are you sure you want to remove this saved podcast?",
@@ -38,47 +36,48 @@ const LikedAudio = () => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        { text: "OK", onPress: () => handleAudioLike(item) }
+        { text: "OK", onPress: () => handleAudioLike(radio) }
       ]
     );
   };
 
   return (
-    <ScrollView overScrollMode={"never"}>
-      <View style={styles.container}>
-        {audioData.length > 0 ? (
-          audioData.map(radio => (
-            <Card key={radio.canonical_url}>
-              <Card.Title>{radio.headlines.basic}</Card.Title>
-              <Card.Divider/>
-              <View style={styles.user}>
-                <WebView
-                  source={{ uri: radio.spotify_embed }}
-                  style={styles.webView}
-                  allowsInlineMediaPlayback={true}
-                  allowsFullscreenVideo={false}
-                  mediaPlaybackRequiresUserAction={false}
-                  javaScriptEnabled={true}
-                  domStorageEnabled={true}
-                />
-                <Text style={styles.description}>{radio.subheadlines.basic}</Text>
-                {radio.credits && (
-                  <Text style={styles.date}>By {radio.credits}</Text>
-                )}
-                {radio.display_date && (
-                  <Text style={styles.date}>{radio.display_date}</Text> // Adjusted to just display the date
-                )}
-                <TouchableOpacity onPress={() => handlePress(radio)} style={styles.marker}>
-                  <Ionicons name={'bookmark'} size={30} color={'#9a0000'}/>
-                </TouchableOpacity>
-              </View>
-            </Card>
-          ))
-        ) : (
-          <Text style={styles.noLikedNewsText}>No liked radios yet.</Text>
-        )}
-      </View>
-    </ScrollView>
+    <FlatList
+      data={audioData}
+      renderItem={({ item: radio }) => (
+        <Card key={radio._id}>
+          <Card.Title>{radio.headlines.basic}</Card.Title>
+          <Card.Divider/>
+          <View style={styles.user}>
+            <WebView
+              source={{ uri: radio.spotify_embed }}
+              style={styles.webView}
+              allowsInlineMediaPlayback={true}
+              allowsFullscreenVideo={false}
+              mediaPlaybackRequiresUserAction={false}
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
+            />
+            <Text style={styles.description}>{radio.subheadlines.basic}</Text>
+            {radio.credits && (
+              <Text style={styles.date}>By {radio.credits}</Text>
+            )}
+            {radio.display_date && (
+              <Text style={styles.date}>
+                {format(new Date(radio.display_date), "MMMM dd, yyyy 'at' hh:mm a")}
+              </Text>
+            )}
+            <TouchableOpacity onPress={() => handlePress(radio)} style={styles.marker}>
+              <Ionicons name={'bookmark'} size={30} color={'#9a0000'}/>
+            </TouchableOpacity>
+          </View>
+        </Card>
+      )}
+      keyExtractor={radio => radio._id}
+      overScrollMode="never"
+      ListEmptyComponent={<Text style={styles.noLikedNewsText}>No liked radios yet.</Text>}
+      contentContainerStyle={{ flexGrow: 1 }}
+    />
   );
 };
 

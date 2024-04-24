@@ -1,40 +1,33 @@
-import React, {useContext, useState} from 'react';
-import {Alert, View, StyleSheet, TouchableOpacity, ActivityIndicator, ScrollView,} from 'react-native';
-import {Text, Card, Image,} from '@rneui/themed';
+import React, { useContext } from 'react';
+import { Alert, View, StyleSheet, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { Text, Card, Image } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {NewsContext} from '../../../Context/newsContext';
-import {useNavigation} from '@react-navigation/native';
-import {format} from "date-fns";
+import { NewsContext } from '../../../Context/newsContext';
+import { useNavigation } from '@react-navigation/native';
+import { format } from "date-fns";
 
 const LikedNews = () => {
   const BASE_AM_URL = 'https://uscannenbergmedia.com';
-
-  const {newsData, updateNewsData} = useContext(NewsContext);
-
-  // used for redirecting detail news
+  const { newsData, updateNewsData } = useContext(NewsContext);
   const navigation = useNavigation();
 
-  const handleNewsLike = (item) => {
-    let updatedLikedNews;
-    const index = newsData.findIndex(news => news.canonical_url === item.canonical_url);
+  const handleNewsLike = (story) => {
+    const index = newsData.findIndex(n => n.canonical_url === story.canonical_url);
+    let updatedLikedNews = [...newsData];
 
     if (index === -1) {
-      // If news is not in likedNews, add it
-      updatedLikedNews = [...newsData, item];
+      updatedLikedNews.push(story);
     } else {
-      // If news is already in likedNews, remove it
-      updatedLikedNews = [...newsData];
       updatedLikedNews.splice(index, 1);
     }
 
-    // Save updated likedNews to AsyncStorage
     AsyncStorage.setItem('likedNews', JSON.stringify(updatedLikedNews)).then(() => {
       updateNewsData(updatedLikedNews);
     });
   };
 
-  const handlePress = (item) => {
+  const handlePress = (story) => {
     Alert.alert(
       "Confirm",
       "Are you sure you want to remove this saved article?",
@@ -44,59 +37,57 @@ const LikedNews = () => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        {text: "OK", onPress: () => handleNewsLike(item)}
+        { text: "OK", onPress: () => handleNewsLike(story) }
       ]
     );
   };
 
-
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        {newsData.length > 0 ? (
-          <View>
-            {newsData.map(n => {
-              return (
-                <TouchableOpacity
-                  key={n.canonical_url}
-                  onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + n.canonical_url})}
-                >
-                  <Card>
-                    <Card.Title>{n.headlines.basic}</Card.Title>
-                    <Card.Divider/>
-                    <View style={styles.user}>
-                      {n.promo_items.basic.additional_properties !== undefined && <Image
-                        source={{uri: BASE_AM_URL + n.promo_items.basic.additional_properties.resizeUrl}}
-                        containerStyle={styles.item}
-                        PlaceholderContent={<ActivityIndicator/>}
-                      />}
-                      {n.promo_items.basic.additional_properties === undefined && <Image
-                        source={{uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51'}}
-                        containerStyle={styles.undefinedItem}
-                        PlaceholderContent={<ActivityIndicator/>}
-                      />}
-                      <Text style={styles.description}>{n.subheadlines.basic}</Text>
-                      <View style={{flexDirection: 'row'}}>
-                        {n.display_date !== undefined &&
-                          <Text
-                            style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a")}</Text>
-                        }
-                      </View>
-                      <TouchableOpacity onPress={() => handlePress(n)} style={styles.marker}>
-                        <Ionicons name={'bookmark'} size={30} color={'#990000'}/>
-                      </TouchableOpacity>
-                    </View>
-                  </Card>
-
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        ) : (
-          <Text style={styles.noLikedNewsText}>No liked news yet.</Text>
-        )}
-      </View>
-    </ScrollView>
+    <FlatList
+      data={newsData}
+      renderItem={({ item: story }) => (
+        <TouchableOpacity
+          key={story._id}
+          onPress={() => navigation.navigate('NewsDetail', { link: BASE_AM_URL + story.canonical_url })}
+        >
+          <Card>
+            <Card.Title>{story.headlines.basic}</Card.Title>
+            <Card.Divider/>
+            <View style={styles.user}>
+              {story.promo_items.basic.additional_properties !== undefined && (
+                <Image
+                  source={{ uri: BASE_AM_URL + story.promo_items.basic.additional_properties.resizeUrl }}
+                  containerStyle={styles.item}
+                  PlaceholderContent={<ActivityIndicator/>}
+                />
+              )}
+              {story.promo_items.basic.additional_properties === undefined && (
+                <Image
+                  source={{ uri: 'https://www.uscannenbergmedia.com/pf/resources/uscamlogo.png?d=51' }}
+                  containerStyle={styles.undefinedItem}
+                  PlaceholderContent={<ActivityIndicator/>}
+                />
+              )}
+              <Text style={styles.description}>{story.subheadlines.basic}</Text>
+              <View style={{ flexDirection: 'row' }}>
+                {story.display_date !== undefined &&
+                  <Text style={styles.date}>
+                    {format(new Date(story.display_date), "MMMM dd, yyyy 'at' hh:mm a")}
+                  </Text>
+                }
+              </View>
+              <TouchableOpacity onPress={() => handlePress(story)} style={styles.marker}>
+                <Ionicons name={'bookmark'} size={30} color={'#990000'}/>
+              </TouchableOpacity>
+            </View>
+          </Card>
+        </TouchableOpacity>
+      )}
+      keyExtractor={story => story._id}
+      ListEmptyComponent={<Text style={styles.noLikedNewsText}>No liked news yet.</Text>}
+      contentContainerStyle={newsData.length === 0 ? { flexGrow: 1 } : null}
+      overScrollMode="never"
+    />
   );
 };
 
@@ -106,15 +97,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F9F9',
     paddingVertical: 20,
     paddingHorizontal: 10,
-  },
-  likedThingText: {
-    fontFamily: 'Chalkboard SE',
-    color: '#9a0000',
-    fontSize: 24,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    textAlign: 'center',
-    textTransform: 'uppercase',
   },
   noLikedNewsText: {
     alignSelf: 'center',

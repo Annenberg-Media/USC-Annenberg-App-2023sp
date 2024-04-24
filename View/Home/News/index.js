@@ -39,7 +39,7 @@ const News = ({story}) => {
 
   return (
     <TouchableOpacity
-      key={story.canonical_url}
+      key={story._id}
       onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + story.canonical_url})}
     >
       <Card>
