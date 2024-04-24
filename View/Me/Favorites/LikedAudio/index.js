@@ -1,17 +1,17 @@
-import React, {useContext} from 'react';
-import {Alert, View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
-import {Text, Card,} from '@rneui/themed';
+import React, { useContext } from 'react';
+import { Alert, View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, Card } from '@rneui/themed';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import WebView from 'react-native-webview';
-import {AudioContext} from '../../../Context/audioContext';
+import { AudioContext } from '../../../Context/audioContext';
 
 const LikedAudio = () => {
-  const {audioData, updateAudioData} = useContext(AudioContext);
+  const { audioData, updateAudioData } = useContext(AudioContext);
 
   const handleAudioLike = (item) => {
     let updatedLikedAudio;
-    const index = audioData.findIndex(radios => radios.link === item.link);
+    const index = audioData.findIndex(radio => radio.canonical_url === item.canonical_url);
 
     if (index === -1) {
       // If audio is not in likedAudio, add it
@@ -38,7 +38,7 @@ const LikedAudio = () => {
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
-        {text: "OK", onPress: () => handleAudioLike(item)}
+        { text: "OK", onPress: () => handleAudioLike(item) }
       ]
     );
   };
@@ -47,37 +47,33 @@ const LikedAudio = () => {
     <ScrollView overScrollMode={"never"}>
       <View style={styles.container}>
         {audioData.length > 0 ? (
-          <View>
-            {audioData.map(r => {
-              return (
-                <Card key={r.link}>
-                  <Card.Title>{r.title}</Card.Title>
-                  <Card.Divider/>
-                  <View style={styles.user}>
-                    <WebView
-                      source={{uri: r.radio}}
-                      style={styles.webView}
-                      allowsInlineMediaPlayback={true}
-                      allowsFullscreenVideo={false}
-                      mediaPlaybackRequiresUserAction={false}
-                      javaScriptEnabled={true}
-                      domStorageEnabled={true}
-                    />
-                    <Text style={styles.description}>{r.description}</Text>
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{flexDirection: 'column'}}>
-                        <Text style={styles.date}>By{r.author}</Text>
-                        <Text style={styles.date}>- {r.date}</Text>
-                      </View>
-                    </View>
-                    <TouchableOpacity onPress={() => handlePress(r)} style={styles.marker}>
-                      <Ionicons name={'bookmark'} size={30} color={'#9a0000'}/>
-                    </TouchableOpacity>
-                  </View>
-                </Card>
-              );
-            })}
-          </View>
+          audioData.map(radio => (
+            <Card key={radio.canonical_url}>
+              <Card.Title>{radio.headlines.basic}</Card.Title>
+              <Card.Divider/>
+              <View style={styles.user}>
+                <WebView
+                  source={{ uri: radio.spotify_embed }}
+                  style={styles.webView}
+                  allowsInlineMediaPlayback={true}
+                  allowsFullscreenVideo={false}
+                  mediaPlaybackRequiresUserAction={false}
+                  javaScriptEnabled={true}
+                  domStorageEnabled={true}
+                />
+                <Text style={styles.description}>{radio.subheadlines.basic}</Text>
+                {radio.credits && (
+                  <Text style={styles.date}>By {radio.credits}</Text>
+                )}
+                {radio.display_date && (
+                  <Text style={styles.date}>{radio.display_date}</Text> // Adjusted to just display the date
+                )}
+                <TouchableOpacity onPress={() => handlePress(radio)} style={styles.marker}>
+                  <Ionicons name={'bookmark'} size={30} color={'#9a0000'}/>
+                </TouchableOpacity>
+              </View>
+            </Card>
+          ))
         ) : (
           <Text style={styles.noLikedNewsText}>No liked radios yet.</Text>
         )}
@@ -92,15 +88,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F9F9',
     paddingVertical: 20,
     paddingHorizontal: 10,
-  },
-  likedThingText: {
-    fontFamily: 'Chalkboard SE',
-    color: '#9a0000',
-    fontSize: 24,
-    fontWeight: 'bold',
-    fontStyle: 'normal',
-    textAlign: 'center',
-    textTransform: 'uppercase',
   },
   noLikedNewsText: {
     alignSelf: 'center',
