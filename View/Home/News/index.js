@@ -62,7 +62,7 @@ const News = ({story}) => {
           )}
           {story.display_date !== undefined &&
             <Text
-              style={styles.date}>{format(new Date(story.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+              style={styles.date}>{format(new Date(story.display_date), "MMMM dd, yyyy 'at' hh:mm a")}</Text>
           }
           <TouchableOpacity onPress={() => handleLike(story)} style={styles.marker}>
             <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}

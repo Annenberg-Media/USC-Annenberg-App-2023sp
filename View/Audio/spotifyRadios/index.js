@@ -66,7 +66,7 @@ const SpotifyRadio = ({radio}) => {
           )}
           {radio.display_date !== undefined &&
             <Text
-              style={styles.date}>{format(new Date(radio.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+              style={styles.date}>{format(new Date(radio.display_date), "MMMM dd, yyyy 'at' hh:mm a")}</Text>
           }
           <TouchableOpacity onPress={() => handleLike(radio)} style={styles.marker}>
             <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}

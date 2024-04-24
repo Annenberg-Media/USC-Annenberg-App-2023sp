@@ -79,7 +79,7 @@ const LikedNews = () => {
                       <View style={{flexDirection: 'row'}}>
                         {n.display_date !== undefined &&
                           <Text
-                            style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a 'PST'")}</Text>
+                            style={styles.date}>{format(new Date(n.display_date), "MMMM dd, yyyy 'at' hh:mm a")}</Text>
                         }
                       </View>
                       <TouchableOpacity onPress={() => handlePress(n)} style={styles.marker}>
