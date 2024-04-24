@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './View/Home';
 import AudioScreen from './View/Audio';
-import MeScreen from './View/Me';
+import SavedScreen from './View/Saved';
 import PopularScreen from './View/Popular';
 import SearchScreen from './View/Search';
 import DetailedNews from './View/Home/DetailedNews';
@@ -27,10 +27,10 @@ function HomeStack() {
   );
 }
 
-function MeStack() {
+function SavedStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="MeScreen" component={MeScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="SavedScreen" component={SavedScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="NewsDetail" component={DetailedNews} options={{ headerShown: false }}/>
     </Stack.Navigator>
   );
@@ -73,10 +73,10 @@ export default function App() {
                     iconName = focused 
                       ? 'ios-search-circle' 
                       : 'ios-search-circle-outline';
-                  } else if (route.name === 'Me') {
+                  } else if (route.name === 'Saved') {
                     iconName = focused
-                      ? 'ios-person-circle' 
-                      : 'ios-person-circle-outline';
+                      ? 'bookmark'
+                      : 'bookmark-outline';
                   }
 
                   // You can return any component that you like here!
@@ -90,7 +90,7 @@ export default function App() {
               <Tab.Screen name="Radio" component={AudioScreen} />
               <Tab.Screen name="Video" component={PopularScreen} />
               <Tab.Screen name="Search" component={SearchStack} />
-              <Tab.Screen name="Me" component={MeStack} />
+              <Tab.Screen name="Saved" component={SavedStack} />
             </Tab.Navigator>
           </NavigationContainer>
         </VideoContextProvider>

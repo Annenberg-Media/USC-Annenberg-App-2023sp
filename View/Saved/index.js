@@ -4,7 +4,7 @@ import { Text, } from '@rneui/themed';
 import Medias from './Medias';
 import Favorites from './Favorites';
 
-const Me = () => {
+const Saved = () => {
   return (
     <>
       <View style={styles.container}>
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Me;
+export default Saved;
