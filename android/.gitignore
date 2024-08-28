@@ -11,6 +11,7 @@ release/
 local.properties
 *.iml
 *.hprof
+index.android.bundle
 
 # BUCK
 buck-out/

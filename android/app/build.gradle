@@ -141,6 +141,8 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
+    namespace "com.annenbergmedia.news"
+
     defaultConfig {
         applicationId 'com.annenbergmedia.news'
         minSdkVersion rootProject.ext.minSdkVersion
