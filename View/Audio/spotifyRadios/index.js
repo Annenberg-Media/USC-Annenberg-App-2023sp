@@ -39,43 +39,45 @@
     const isLiked = audioData.findIndex(item => item.canonical_url === radio.canonical_url) !== -1;
 
     return (
-      <TouchableOpacity
-        key={radio._id}
-        onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + radio.canonical_url})}
-      >
-        <Card key={radio._id}>
+      <Card key={radio._id}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + radio.canonical_url})}
+        >
           <Card.Title style={styles.title}>{radio.headlines.basic}</Card.Title>
-          <Card.Divider/>
-          <View style={styles.user}>
-            <WebView
-              source={{uri: radio.spotify_embed}}
-              onShouldStartLoadWithRequest={(request) => {
-                // Only allow navigating within this website
-                return request.url.startsWith(radio.spotify_embed);
-              }}
-              style={styles.webView}
-              allowsInlineMediaPlayback={true}
-              allowsFullscreenVideo={false}
-              mediaPlaybackRequiresUserAction={false}
-              javaScriptEnabled={true}
-              domStorageEnabled={true}
-            />
+        </TouchableOpacity>
+        <Card.Divider/>
+        <View style={styles.user}>
+          <WebView
+            source={{uri: radio.spotify_embed}}
+            onShouldStartLoadWithRequest={(request) => {
+              // Only allow navigating within this website
+              return request.url.startsWith(radio.spotify_embed);
+            }}
+            style={styles.webView}
+            allowsInlineMediaPlayback={true}
+            allowsFullscreenVideo={false}
+            mediaPlaybackRequiresUserAction={false}
+            javaScriptEnabled={true}
+            domStorageEnabled={true}
+          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('NewsDetail', {link: BASE_AM_URL + radio.canonical_url})}
+          >
             <Text style={styles.description}>{radio.subheadlines.basic}</Text>
-            {radio.credits && (
-              <Text style={styles.credits}>By {radio.credits}</Text>
-            )}
-            {radio.display_date !== undefined &&
-              <Text
-                style={styles.date}>{format(new Date(radio.display_date), "MMMM dd, yyyy 'at' hh:mm a")}</Text>
-            }
-            <TouchableOpacity onPress={() => handleLike(radio)} style={styles.marker}>
-              <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
-                        color={isLiked ? '#990000' : '#990000'}/>
-            </TouchableOpacity>
-          </View>
-        </Card>
-
-      </TouchableOpacity>
+          </TouchableOpacity>
+          {radio.credits && (
+            <Text style={styles.credits}>By {radio.credits}</Text>
+          )}
+          {radio.display_date !== undefined &&
+            <Text
+              style={styles.date}>{format(new Date(radio.display_date), "MMMM dd, yyyy 'at' hh:mm a")}</Text>
+          }
+          <TouchableOpacity onPress={() => handleLike(radio)} style={styles.marker}>
+            <Ionicons name={isLiked ? 'bookmark' : 'bookmark-outline'} size={30}
+                      color={isLiked ? '#990000' : '#990000'}/>
+          </TouchableOpacity>
+        </View>
+      </Card>
     );
   };
 
