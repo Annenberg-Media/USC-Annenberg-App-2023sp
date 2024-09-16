@@ -336,6 +336,9 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    // For registering receiver in MainApplication.java
+    implementation 'org.jetbrains:annotations:16.0.2'
 }
 
 if (isNewArchitectureEnabled()) {
