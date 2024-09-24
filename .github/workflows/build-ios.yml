@@ -54,9 +54,11 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Install Pods
-        working-directory: ios
-        run: pod install
+      - name: Setup CocoaPods from Podlock
+        uses: maxim-lobanov/setup-cocoapods@v1
+        with:
+          podfile-path: ios/Podfile.lock
+
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
