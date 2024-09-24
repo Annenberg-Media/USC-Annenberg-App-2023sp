@@ -54,11 +54,10 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Disintegrate Pods
+      - name:  Set up CocoaPods
         uses: maxim-lobanov/setup-cocoapods@v1
         with:
           version: latest
-          podfile-path: Podfile.lock
 
 
       - name: Setup Node.js
