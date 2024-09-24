@@ -59,6 +59,11 @@ jobs:
         with:
           podfile-path: ios/Podfile.lock
 
+      - name: Test config file exists
+        run: |
+          cd /Users/runner/work/USC-Annenberg-App-2023sp/USC-Annenberg-App-2023sp/ios/Pods/Target Support Files/Pods-AnnenbergMedia/
+          ls -la
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
