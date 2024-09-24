@@ -12,7 +12,7 @@ jobs:
     name: Build iOS app
     defaults:
       run:
-        working-directory: ./ios
+        working-directory: ios
     concurrency:
       group: ${{ github.ref }}
       cancel-in-progress: true
@@ -57,7 +57,7 @@ jobs:
       - name: Setup CocoaPods from Podlock
         uses: maxim-lobanov/setup-cocoapods@v1
         with:
-          podfile-path: Podfile.lock
+          podfile-path: ios/Podfile.lock
 
 
       - name: Setup Node.js
