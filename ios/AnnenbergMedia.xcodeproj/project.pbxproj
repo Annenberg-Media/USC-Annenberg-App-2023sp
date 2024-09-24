@@ -330,7 +330,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.annenbergmedia.news;
 				PRODUCT_NAME = AnnenbergMediaNews;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Graham Stecklein App Store Distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "AM Distribution";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -364,7 +364,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.annenbergmedia.news;
 				PRODUCT_NAME = AnnenbergMediaNews;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Graham Stecklein App Store Distribution";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "AM Distribution";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
