@@ -56,7 +56,6 @@ jobs:
 
       - name:  Setup pods
         run: |
-          cd ios
           rm Podlock.file
           rm -r Pods
           pod install
