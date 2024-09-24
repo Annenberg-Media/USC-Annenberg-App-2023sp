@@ -56,7 +56,7 @@ jobs:
 
       - name:  Setup pods
         run: |
-          rm Podlock.file
+          rm Podfile.lock
           rm -r Pods
           pod install
 
