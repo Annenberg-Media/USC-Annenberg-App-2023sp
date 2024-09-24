@@ -1,4 +1,3 @@
-require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
 require File.join(File.dirname(`node --print "require.resolve('@react-native-community/cli-platform-ios/package.json')"`), "native_modules")
 ENV['USE_HERMES'] = '0'
@@ -13,8 +12,7 @@ install! 'cocoapods',
   :deterministic_uuids => false
 
 target 'AnnenbergMedia' do
-  use_expo_modules!
-  config = use_native_modules!
+  config = use_native_modules!  # Removed Expo modules
 
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
 
@@ -23,7 +21,7 @@ target 'AnnenbergMedia' do
 
   use_react_native!(
     :path => config[:reactNativePath],
-    :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes',
+    :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes',  # Based on React Native Hermes config
     :fabric_enabled => flags[:fabric_enabled],
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/..",
@@ -54,11 +52,5 @@ target 'AnnenbergMedia' do
     end
   end
 
-  post_integrate do |installer|
-    begin
-      expo_patch_react_imports!(installer)
-    rescue => e
-      Pod::UI.warn e
-    end
-  end
+  # Removed Expo post integration step
 end
