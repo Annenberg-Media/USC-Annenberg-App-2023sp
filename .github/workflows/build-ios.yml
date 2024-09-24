@@ -54,10 +54,12 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name:  Set up CocoaPods
-        uses: maxim-lobanov/setup-cocoapods@v1
-        with:
-          version: latest
+      - name:  Setup pods
+        run: |
+          cd ios
+          rm Podlock.file
+          rm -r Pods
+          pod install
 
 
       - name: Setup Node.js
