@@ -60,13 +60,17 @@ jobs:
 
       - name: check if Podfile.lock exists
         run: |
-          ls -la ios
+          cat ios/Podfile.lock
 
       - name: Remove pods & build
         run: |
           rm -f ios/Podfile.lock
           rm -rf ios/Pods
           rm -rf ios/build
+
+      - name: check if Podfile.lock exists
+        run: |
+          cat ios/Podfile.lock
 
       - name: install Cocoapod dependencies
         run: |
