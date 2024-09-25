@@ -1,4 +1,4 @@
-name: Build iOS
+name: Build App
 
 on:
   push:
@@ -54,27 +54,28 @@ jobs:
         with:
           node-version: 20.x
 
-      - name: Remove Podfile.lock
+      - name: Remove pods & build
         run: |
-          rm ios/Podfile.lock
-
-      - name: Install app dependencies
-        run: |
-          npm install
-          npx install-expo-modules
-
-      - name: Set up XCode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
+          rm -f ios/Podfile.lock
+          rm -rf ios/Pods
+          rm -rf ios/build
 
       - name: Setup CocoaPods
         run: gem install cocoapods
 
       - name: install Cocoapod dependencies
         run: |
-            cd ios
-            pod install --repo-update
+          cd ios
+          pod install --repo-update
+
+      - name: Install app dependencies
+        run: |
+          npm install
+
+      - name: Set up XCode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
 
       - name: Test config file exists
         run: |
