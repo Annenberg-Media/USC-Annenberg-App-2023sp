@@ -21,7 +21,7 @@ target 'AnnenbergMedia' do
 
   use_react_native!(
     :path => config[:reactNativePath],
-    :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes',  # Based on React Native Hermes config
+    :hermes_enabled => false,  # Based on React Native Hermes config
     :fabric_enabled => flags[:fabric_enabled],
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/..",
