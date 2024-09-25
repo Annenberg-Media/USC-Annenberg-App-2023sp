@@ -62,14 +62,13 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Setup CocoaPods from Podlock
-        uses: maxim-lobanov/setup-cocoapods@v1
-        with:
-          podfile-path: ios/Podfile.lock
+      - name: Setup CocoaPods
+        run: gem install cocoapods
 
       - name: install Cocoapod dependencies
         run: |
             cd ios
+            pod repo update
             pod install
 
       - name: Test config file exists
