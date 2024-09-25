@@ -63,8 +63,11 @@ jobs:
       - name: Install app dependencies
         run: |
           npm install
+
+      - name: install Cocoapod dependencies
+        run: |
           cd ios
-          npx pod-install
+          pod install --repo-update --clean-install
 
       - name: Set up XCode
         uses: maxim-lobanov/setup-xcode@v1
