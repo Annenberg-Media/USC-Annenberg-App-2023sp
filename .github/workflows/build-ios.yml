@@ -54,6 +54,10 @@ jobs:
         with:
           node-version: 20.x
 
+      - name: Remove Podfile.lock
+        run: |
+          rm ios/Podfile.lock
+
       - name: Install app dependencies
         run: |
           npm install
