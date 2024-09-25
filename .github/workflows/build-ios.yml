@@ -55,9 +55,7 @@ jobs:
           node-version: 20.x
 
       - name: Install app dependencies
-        run: |
-          npm install
-          npm audit fix --force
+        run: npm install
 
       - name: Set up XCode
         uses: maxim-lobanov/setup-xcode@v1
@@ -71,8 +69,8 @@ jobs:
 
       - name: install Cocoapod dependencies
         run: |
-          cd ios
-          pod install
+            cd ios
+            pod install
 
       - name: Test config file exists
         run: |
