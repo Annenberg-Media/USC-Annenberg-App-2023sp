@@ -57,7 +57,6 @@ jobs:
       - name: Install app dependencies
         run: |
           npm install
-          npx install-expo-modules
 
       - name: Set up XCode
         uses: maxim-lobanov/setup-xcode@v1
