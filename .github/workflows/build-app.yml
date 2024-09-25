@@ -54,28 +54,17 @@ jobs:
         with:
           node-version: 20.x
 
-      - name: Install app dependencies
-        run: |
-          npm install
-
-      - name: check if Podfile.lock exists
-        run: |
-          cat ios/Podfile.lock
-
       - name: Remove pods & build
         run: |
           rm -f ios/Podfile.lock
           rm -rf ios/Pods
           rm -rf ios/build
 
-      - name: check if Podfile.lock exists
+      - name: Install app dependencies
         run: |
-          cat ios/Podfile.lock
-
-      - name: install Cocoapod dependencies
-        run: |
+          npm install
           cd ios
-          pod install --repo-update
+          npx pod-install
 
       - name: Set up XCode
         uses: maxim-lobanov/setup-xcode@v1
