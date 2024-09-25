@@ -54,18 +54,19 @@ jobs:
         with:
           node-version: 20.x
 
+      - name: Install app dependencies
+        run: |
+          npm install
+
+      - name: check if Podfile.lock exists
+        run: |
+          ls -la ios
+
       - name: Remove pods & build
         run: |
           rm -f ios/Podfile.lock
           rm -rf ios/Pods
           rm -rf ios/build
-
-      - name: Install app dependencies
-        run: |
-          npm install
-
-      - name: Setup CocoaPods
-        run: gem install cocoapods
 
       - name: install Cocoapod dependencies
         run: |
@@ -83,14 +84,18 @@ jobs:
           ls -la
 
       - name: Build project
-        run: xcodebuild -workspace './AnnenbergMedia.xcworkspace' -scheme AnnenbergMedia -destination generic/platform=iOS -archivePath App.xcarchive archive
+        run: |
+          cd ios/
+          xcodebuild -workspace './AnnenbergMedia.xcworkspace' -scheme AnnenbergMedia -destination generic/platform=iOS -archivePath AnnenbergMedia.xcarchive archive
 
       - name: 🍻 Assemble IPA
-        run: xcodebuild archive -archivePath AnnenbergMedia.xcarchive -exportArchive -exportOptionsPlist ./archive.plist -exportPath output -allowProvisioningUpdates
+        run: |
+          cd ios/
+          xcodebuild archive -archivePath AnnenbergMedia.xcarchive -exportArchive -exportOptionsPlist ./archive.plist -exportPath output -allowProvisioningUpdates
 
       - name: Upload release bundle
         uses: actions/upload-artifact@v4
         with:
           name: app-ios
-          path: output/
-          retention-days: 60
+          path: output/ios/release  .ipa
+          retention-days: 5
