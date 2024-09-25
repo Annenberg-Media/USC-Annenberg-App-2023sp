@@ -60,6 +60,10 @@ jobs:
           rm -rf ios/Pods
           rm -rf ios/build
 
+      - name: Install app dependencies
+        run: |
+          npm install
+
       - name: Setup CocoaPods
         run: gem install cocoapods
 
@@ -67,10 +71,6 @@ jobs:
         run: |
           cd ios
           pod install --repo-update
-
-      - name: Install app dependencies
-        run: |
-          npm install
 
       - name: Set up XCode
         uses: maxim-lobanov/setup-xcode@v1
