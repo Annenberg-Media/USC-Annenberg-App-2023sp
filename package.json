@@ -28,7 +28,6 @@
     "expo-modules-core": "^1.12.24",
     "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
-    "expo-constants": "^16.0.2",
     "he": "^1.2.0",
     "iconv-lite": "^0.6.3",
     "react": "18.1.0",
